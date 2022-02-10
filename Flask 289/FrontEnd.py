@@ -1,4 +1,9 @@
-From flask import Flask, redirect, url_for, render_template
+import sys
+import io
+import os
+From flask import Flask, redirect, url_for, render_template, request, send_file
+
+
 
 app = Flask(__name__)
 
@@ -17,4 +22,4 @@ def profile(username):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug = True)
