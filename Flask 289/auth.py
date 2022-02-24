@@ -11,6 +11,8 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/register', methods=('GET','POST'))
 def register():
+    '''Main handler of the registeration function using the methods GET and POST to create new
+    New user names and passwords and adding them to the database.'''
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -26,7 +28,7 @@ def register():
     if error is None:
         try:
             db.execute(
-                "InSERT INTO user (username, password) VALUES (?,?)",
+                "INSERT INTO user (username, password) VALUES (?,?)",
                 (username, generate_password_hash(password)),
             )
             db.commit()
