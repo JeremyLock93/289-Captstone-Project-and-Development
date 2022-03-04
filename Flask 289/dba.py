@@ -1,18 +1,16 @@
 from getpass import getpass
 from mysql.connector import connect, Error
 
+#The creation of the connection for the database. 
+templaholicDB = mysql.connector.connect(
+    host = "",
+    user = "",
+    passwd = "",
+    database = ""
+)
 
+#The cursor Instance to interact with the database
+cursor = templaholicDB.cursor()
 
-def get_db_connection():
-    try:
-        with connect(
-            host = "local host";
-            user = input("Enter username: "),
-            password=getpass("Enter password: "),
-        ) as connection:
-            create_db_query = ""
-            with connection.cursor() as cursor:
-                cursor.execute(create_db_query)
-            print(connection)
-    except Error as e:
-        print(e)
+#Creating the Database 
+#templaholicDB.cursosr.execute()
