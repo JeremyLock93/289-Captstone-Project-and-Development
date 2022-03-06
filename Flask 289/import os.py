@@ -1,4 +1,4 @@
-import os
+""" import os
 from flask import Flask
 
 def create_app(test_config=None):
@@ -19,4 +19,4 @@ def create_app(test_config=None):
     try:
         os.maredirs(app.instance_path)
     except OSError:
-        pass
+        pass """

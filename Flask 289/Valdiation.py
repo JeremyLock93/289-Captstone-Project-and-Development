@@ -1,4 +1,4 @@
-from wtforms import Form, BooleanField, StringField, PasswordField, validators
+""" from wtforms import Form, BooleanField, StringField, PasswordField, validators
 
 class RegisterationForm(Form):
     username = StringField('Username', [validatior.Length(min=4, max=30)])
@@ -19,4 +19,4 @@ def register():
         db_session.add(user)
         flash('Thank you for registering')
         return redirect(url_for('login'))
-    return render_template('register.html', form=form)
+    return render_template('register.html', form=form) """

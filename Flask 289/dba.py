@@ -1,4 +1,4 @@
-from getpass import getpass
+""" from getpass import getpass
 from mysql.connector import connect, Error
 
 #The creation of the connection for the database. 
@@ -13,4 +13,4 @@ templaholicDB = mysql.connector.connect(
 cursor = templaholicDB.cursor()
 
 #Creating the Database 
-#templaholicDB.cursosr.execute()
+#templaholicDB.cursosr.execute() """

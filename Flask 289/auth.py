@@ -1,4 +1,4 @@
-import functools
+""" import functools
 
 from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
 
@@ -89,4 +89,4 @@ def login_required(view):
             return redirect(url_for('auth.login'))
         
         return view(**kwargs)
-    return wrapped_view 
+    return wrapped_view  """
