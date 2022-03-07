@@ -1,4 +1,8 @@
 """
+    Taylor J. Brown
+    07MAR22
+    file_Parse.py
+
     Opens a file and returns the parsed contents in a sorted dictionary
 """
 
@@ -13,6 +17,8 @@ def main():
     ParseCSV(file_P_CSV)
     print()
     ParseDOCX(file_P_DOCX)
+    
+    
 
 
 def ParseCSV(file_P_CSV):
@@ -55,7 +61,7 @@ def ParseDOCX(file_P_DOCX):
     data_keys.append(data[1])
     data_keys.append(data[2])
     
-    # Iterates through the list and appends the dictionary sets to the data_formatted list 
+    # Iterates through the list and appends the dictionary key value pairs to the data_formatted list 
     data_formatted = []
     count = int((len(data) / 3) - 1)
     index = 3
