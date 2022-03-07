@@ -13,31 +13,40 @@ def main():
     # File path (will be changed when intergrated with flask app)
     file_P_CSV = "CSC_289_CAP.csv"
     file_P_DOCX = "CSC_289_CAP.docx"
+    DATA_FORMATTED_CSV = []
+    DATA_FORMATTED_DOCX = []
+    CLASS_NAME = ""
     
-    ParseCSV(file_P_CSV)
+    
+    CLASS_NAME, DATA_FORMATTED_CSV = ParseCSV(file_P_CSV)
+    # Prints each DATA_FORMATTED_CSV value in the CSV file  
+    print(CLASS_NAME)     
+    for item in DATA_FORMATTED_CSV:
+        print(item , "\n")
+        
     print()
-    ParseDOCX(file_P_DOCX)
     
-    
+    CLASS_NAME, DATA_FORMATTED_DOCX = ParseDOCX(file_P_DOCX)
+    # Prints the objects in the list
+    print(CLASS_NAME) 
+    for item in DATA_FORMATTED_DOCX:
+        print(item , "\n") 
 
 
 def ParseCSV(file_P_CSV):
     # Strips the file extention and assigns it as the Class_name
     size = len(file_P_CSV)
     CLASS_NAME = file_P_CSV[:size - 4]
-    print(CLASS_NAME , "\n")
     
     # Parses the rows and makes the first row read the header and the subsequent rows the values for each header.
     with open(file_P_CSV, "r") as file:
         csvreader = csv.DictReader(file)
-        ASSIGNMENTS = []
+        DATA_FORMATTED_CSV = []
         for row in csvreader:
-            ASSIGNMENTS.append(row)
+            DATA_FORMATTED_CSV.append(row)
+            
+    return CLASS_NAME, DATA_FORMATTED_CSV
         
-    # Prints each assignments value in the CSV file       
-    for item in ASSIGNMENTS:
-        print(item , "\n")   
-
 
 def ParseDOCX(file_P_DOCX):
     # Passes the file through the docx method
@@ -46,7 +55,6 @@ def ParseDOCX(file_P_DOCX):
     # Chops off the file extention and assigns it to the class name
     size = len(file_P_DOCX)
     CLASS_NAME = file_P_DOCX[:size - 5]
-    print(CLASS_NAME , "\n")
     
     # Rips the data from the table and appends each item to the list
     data = []
@@ -61,8 +69,8 @@ def ParseDOCX(file_P_DOCX):
     data_keys.append(data[1])
     data_keys.append(data[2])
     
-    # Iterates through the list and appends the dictionary key value pairs to the data_formatted list 
-    data_formatted = []
+    # Iterates through the list and appends the dictionary key value pairs to the DATA_FORMATTED list 
+    DATA_FORMATTED_DOCX = []
     count = int((len(data) / 3) - 1)
     index = 3
     for _ in range(count):
@@ -71,12 +79,10 @@ def ParseDOCX(file_P_DOCX):
         tmp[data_keys[1]] = data[index + 1]
         tmp[data_keys[2]] = data[index + 2]
         index += 3
-        data_formatted.append(tmp)
-        
-    # Prints the objects in the list
-    for item in data_formatted:
-        print(item , "\n") 
-        
+        DATA_FORMATTED_DOCX.append(tmp)
+
+    return CLASS_NAME, DATA_FORMATTED_DOCX
+                 
 
 if __name__ == ("__main__"):
     main()
