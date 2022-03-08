@@ -1,7 +1,0 @@
-[x] CSV files read and assigned to correct variables
-[ ] DOCX files read and assigned to correct variables
-
-[ ] Create CSV files with imported values
-[ ] Create DOCX files with imported values
-
-[ ] Integrate with flask app to get and post information to the templates
