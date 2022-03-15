@@ -61,6 +61,18 @@ def main():
         else:
             print("Invalid input/choice. Choose within 1-4")
         print()
+
+def PrintCSV(f):
+    CLASS_NAME, DATA_FORMATTED = fp.ParseCSV(f)
+    print(CLASS_NAME)     
+    for item in DATA_FORMATTED:
+        print(item , "\n")
+        
+def PrintDOCS(f):
+    CLASS_NAME, DATA_FORMATTED = fp.ParseDOCX(f)
+    print(CLASS_NAME)     
+    for item in DATA_FORMATTED:
+        print(item , "\n")        
         
 def Parsers(user_input):
     for filename in os.listdir(user_input):
@@ -68,19 +80,12 @@ def Parsers(user_input):
         if os.path.isfile(f) and filename.endswith(".csv"): # Check whether file is in csv format or not
             # call read file function
             #print(f)#Test print path
-            Print(f)
+            PrintCSV(f)
         elif os.path.isfile(f) and filename.endswith(".docx"): # Check whether file is in docx format or not
             # call read file function
             #print(f)#Test print path
-            Print(f)
-
-def Print(f):
-    CLASS_NAME, DATA_FORMATTED = fp.ParseCSV(f)
-    print(CLASS_NAME)     
-    for item in DATA_FORMATTED:
-        print(item , "\n")
+            PrintDOCX(f)
         
-    
 #return CLASS_NAME, DATA_FORMATTED
 if __name__ == ("__main__"):
     main()
