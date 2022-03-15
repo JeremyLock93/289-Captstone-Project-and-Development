@@ -103,7 +103,15 @@ def ParseDOCX(file_P_DOCX):
         DATA_FORMATTED_DOCX.append(tmp)
 
     return CLASS_NAME, DATA_FORMATTED_DOCX
-                 
+
+def files(num):
+    if num == 1:
+        file = "CSC_289_CAP.csv"
+        return file
+    elif num == 2:
+        file = "CSC_289_CAP.docx"
+        return file
+
 def CreateCSV(path,file, CLASS_NAME, DATA_FORMATTED):
     fname = os.path.join(path, file)
     with open(file,"w+") as f:
