@@ -5,8 +5,13 @@
     Opens a file and returns the parsed contents in a sorted dictionary
 """
 
-from docx import Document
+import os
 import csv
+import docx
+from docx import Document
+from docx.shared import Inches, Pt
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+
 
 def main():
     # File path (will be changed when intergrated with flask app)
@@ -35,7 +40,16 @@ def main():
 def ParseCSV(file_P_CSV):
     # Strips the file extention and assigns it as the Class_name
     size = len(file_P_CSV)
-    CLASS_NAME = file_P_CSV[:size - 4]
+    CLASS_NAME = file_P_CSV[size - 20:size - 9]
+    """
+    Get the characters from position 2 to position 5 (not included):
+
+    b = "Hello, World!"
+    print(b[2:5])
+    """
+    ###MODIFY THIS TO THE CORRESPONDING PATH OF THE TEMPLATE FILE DIRECTORY!!!
+    ###OR THE CLASSNAME IS NOT CORRECT!!!
+    
     
     # Parses the rows and makes the first row read the header and the subsequent rows the values for each header.
     with open(file_P_CSV, "r") as file:
@@ -60,8 +74,8 @@ def ParseDOCX(file_P_DOCX):
     b = "Hello, World!"
     print(b[2:5])
     """
-    ###MODIFY THIS TO THE CORRESPONDING PATH OF YOUR FILE!!!
-    ###OR THE CLASSNAME IS NOT CORRECT
+    ###MODIFY THIS TO THE CORRESPONDING PATH OF THE TEMPLATE FILE DIRECTORY!!!
+    ###OR THE CLASSNAME IS NOT CORRECT!!!
     
     # Rips the data from the table and appends each item to the list
     data = []
@@ -90,6 +104,45 @@ def ParseDOCX(file_P_DOCX):
 
     return CLASS_NAME, DATA_FORMATTED_DOCX
                  
+def CreateCSV(path,file, CLASS_NAME, DATA_FORMATTED):
+    fname = os.path.join(path, file)
+    with open(file,"w+") as f:
+        keys=DATA_FORMATTED[0].keys()
+        writer = csv.DictWriter(f, fieldnames=keys)
+        writer.writeheader()
+        for key in DATA_FORMATTED:
+            writer.writerow(key)
 
+
+        # for row in csvreader:
+        #     DATA_FORMATTED_CSV.append(row)
+    
+def CreateDOCX(path,file, CLASS_NAME, DATA_FORMATTED):
+    document = Document()
+    fname = os.path.join(path, file)
+    
+    
+    b = document.add_paragraph()
+    b.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    title = b.add_run(CLASS_NAME)
+    fonts = title.font
+    fonts.size = Pt(18)
+    fonts.bold = True
+    
+    
+    table = document.add_table(rows=1, cols=3, style='Table Grid')
+    hdr_cells = table.rows[0].cells
+    hdr_cells[0].text = 'Assignment'
+    hdr_cells[1].text = 'Due-Date'
+    hdr_cells[2].text = 'Comment'
+    for item in DATA_FORMATTED:
+        #print(item)
+        row_cells = table.add_row().cells
+        row_cells[0].text = str(item['Assignment'])
+        row_cells[1].text = str(item['Due-Date'])
+        row_cells[2].text = str(item['Comment'])
+        
+    document.save(fname)
+ 
 if __name__ == ("__main__"):
     main()
