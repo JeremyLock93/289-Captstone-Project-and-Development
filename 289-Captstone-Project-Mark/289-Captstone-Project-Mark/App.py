@@ -11,7 +11,7 @@ def home():
 	return render_template("index.html")
 @app.route("/homepage")
 def homepage():
-	return render_template("homepage.html")
+	return render_template("main.html")
 
 
 if __name__ == "__main__":

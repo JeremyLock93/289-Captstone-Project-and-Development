@@ -9,17 +9,25 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
         <!-- Additional CSS -->   
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='reset.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='reset.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
 
 		
 		
 		<link rel="icon" href="">
         <title>Templiholic</title>
     </head>
-
+	<style>
+	body {
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #565656;
+	}
+	</style>
 	
 	
     <!-- This is where the main guts of the web page goes -->
@@ -27,7 +35,7 @@
         
         <!-- Form -->
         <form>
-            <div class="mb-3" style="padding-top: 20px; padding-left: 5px; align-content: center; margin: auto; max-width: 250px;">
+            <div class="mb-3" style="background-color: #fff; padding: 10px; position: relative; top: 15px;  margin-top: 2%; align-content: center; margin: auto; max-width: 250px;">
                 <h3 style="padding-bottom:10px;">Sign Up</h3>
 				<!-- Full Name -->
                 <label for="FormControlInput1" class="form-label">Full name</label>
@@ -55,9 +63,9 @@
 
           
     <!-- This contains the copyright information and other important information -->
-    <footer stlye="background-color: solid black; position: fixed; bottom: 0; left: 0; width:100%;">
+    <footer stlye="position: fixed; bottom: 0; left: 0; width:100%;">
         <div class="COPYRIGHT">
-        <p>Copyright © 2022 Pythonese LLC</p>
+        <p style="color: white; bottom:0;">Copyright © 2022 Pythonese LLC</p>
         </div>
     </footer>
 
