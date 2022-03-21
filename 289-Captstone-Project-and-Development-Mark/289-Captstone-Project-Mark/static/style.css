@@ -1,0 +1,62 @@
+@charset "utf-8";
+
+/*
+	Taylor J. Brown
+	10FEB22
+*/
+
+/* Theme setup */
+body {
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #565656;
+  }
+
+/* Form CSS */
+.mb-3 {
+	border: 1px solid black;
+    color: white;
+	
+}
+
+.button {
+	background-color: #4CAF50;
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	transition-duration: 0.3s;
+	padding-top: 15px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #e7e7e7;
+	color: white;
+}
+
+
+
+
+
+
+
+
+
+/* Footer CSS */
+.COPYRIGHT {
+    text-transform: uppercase;
+    position: fixed;
+    padding: 10px 10px 0px 10px;
+    bottom: 0;
+    width: 100%;
+    /* Height of the footer*/ 
+    height: 40px;
+    background: lightgrey;
+}
