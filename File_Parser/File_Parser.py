@@ -8,6 +8,7 @@
 import os
 import csv
 import docx
+import json
 from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
@@ -103,9 +104,20 @@ def ParseDOCX(file_P_DOCX):
         DATA_FORMATTED_DOCX.append(tmp)
 
     return CLASS_NAME, DATA_FORMATTED_DOCX
-                 
+
+def files(num):
+    if num == 1:
+        file = "CSC_289_CAP.csv"
+        return file
+    elif num == 2:
+        file = "CSC_289_CAP.docx"
+        return file
+    elif num == 4:
+        file = "JSONFILE.json"
+        return file
+
 def CreateCSV(path,file, CLASS_NAME, DATA_FORMATTED):
-    fname = os.path.join(path, file)
+    #fname = os.path.join(path, file)
     with open(file,"w+") as f:
         keys=DATA_FORMATTED[0].keys()
         writer = csv.DictWriter(f, fieldnames=keys)
@@ -143,6 +155,10 @@ def CreateDOCX(path,file, CLASS_NAME, DATA_FORMATTED):
         row_cells[2].text = str(item['Comment'])
         
     document.save(fname)
- 
+
+def Create_JSON(path,file, CLASS_NAME, DATA_FORMATTED):
+    with open(file,"w+") as f:
+        json.dump(DATA_FORMATTED,f, indent=3)
+
 if __name__ == ("__main__"):
     main()
