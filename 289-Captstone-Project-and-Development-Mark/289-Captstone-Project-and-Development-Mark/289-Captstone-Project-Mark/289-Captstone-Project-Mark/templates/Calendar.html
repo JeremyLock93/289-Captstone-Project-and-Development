@@ -1,7 +1,6 @@
 <html lang="en">
-
-	<head>
-		<!-- Required meta tags -->
+    <head>
+        <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="description" content="Designed to help teachers and students<br>plan class schedules">
@@ -9,12 +8,15 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
         <!-- Additional CSS -->   
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">	
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='reset.css')}}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
-	</head>
-	<!-- Header -->
-	
+
+		
+		
+		<link rel="icon" href="">
+        <title>Templiholic</title>
+    </head>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light" style="width: 100%">
 	  <a class="navbar-brand" href="#"><h2>Templiholic</h2></a>
 	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,59 +45,60 @@
 	  </div>
 	</nav>
 	
+	
+	
 	<body>
-		<div class="container">
-			<div class="row">
-				<div class="col">
-				<!--Profile Pic -->
-				<img src="" alt="Profile Picture" width="200" height="80">
-				</div>
-				<div class="col">
-				<!-- Profile tabs -->
-				<table>
-					
-				</table>
-				</div>
+	<div class="container">
+		<div class="row">
+		
 			<div class="col">
-					<div class="row">
-						<!-- Profile Data -->
-						<table class="table table-striped">
-							<tr>
-								<td>Username: {{username}}</td>
-							</tr>
-							<tr>
-								<td>Name: {{name}}</td>
-							</tr>
-							<tr>
-								<td>Email: {{email}}</td>
-							</tr>
-							<tr>
-								<td>Password: <button class="btn btn-secondary">Click to view</button></td>
-							</tr>
-						</table>
-					</div>
-					<div class="row">
-						<table class="table table-bordered">
-							<tr>
-								<th>Class</th>
-								<th>Actions</th>
-							</tr>
-							
-							<tr>
-								<td>example</td>
-								<td>example</td>
-							<tr>
-							<tr>
-								<td>example</td>
-								<td>example</td>
-							<tr>
-							<tr>
-								<td>example</td>
-								<td>example</td>
-							<tr>
-					</div>
+			<!-- Calendar -->
+			
 			</div>
+			
+			<div class="col">
+				<div class="col">
+				<!-- Today -->
+				<table>
+						<tr>
+							<th>Today</th>
+						</tr>
+						<tr>
+							<td>example</td>
+							
+					</table>
+				</div>
+				<div class="col">
+				<!--Upcoming-->
+					<table>
+						<tr>
+							<th>Upcoming</th>
+						</tr>
+						<tr>
+							<td>example</td>
+							
+					</table>
+				</div>
+				
 			</div>
 		</div>
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	</body>
+	
+	
+	
+	
+	
+	
+	
+	
 </html>
