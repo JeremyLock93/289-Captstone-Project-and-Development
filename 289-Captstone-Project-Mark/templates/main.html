@@ -1,0 +1,114 @@
+<html lang="en">
+
+	<head>
+		<!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="Designed to help teachers and students<br>plan class schedules">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <!-- Additional CSS -->   
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">	
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='reset.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+		
+		<link rel="icon" href="">
+        <title>Templiholic</title>
+	</head>
+	<!-- Header -->
+	
+	<nav class="navbar navbar-expand navbar-light bg-light">
+		<a class="navbar-brand" href="#">Templiholic</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+			  <li class="nav-item active">
+				<a class="nav-link bg-light" href="#">Home</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link bg-light" href="Calendar.html">Calendar</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link bg-light" href="#">Templates</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link bg-light" href="#">Add New</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link text-primary bg-light" href="main.html">Profile</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link bg-light" href="#">Log Out</a>
+			  </li>
+			</ul>
+			
+		  </div>
+	</nav>
+	
+	<body style="background-color: #E6E6FA;">
+		<div class="container">
+			<div class="row" style="padding-top:50;">
+				<div class="col">
+				<!--Profile Pic -->
+				<img src="" alt="Profile Picture" width="200" height="80">
+				</div>
+				<div class="col">
+				<!-- Profile tabs -->
+				<table>
+					
+				</table>
+				</div>
+			
+			<div class="col">
+					<div class="row" style="padding-top:20;">
+						<!-- Profile Data -->
+						<table class="table table-striped" style="background-color:FFFFFF;">
+							<tr>
+								<td>Username: {{username}}</td>
+							</tr>
+							<tr>
+								<td>Name: {{name}}</td>
+							</tr>
+							<tr>
+								<td>Email: {{email}}</td>
+							</tr>
+							<tr>
+								<td>Password: <button class="btn btn-secondary">Click to view</button></td>
+							</tr>
+						</table>
+					</div>
+					<div class="row" style="padding-top:50;">
+						<table class="table table-bordered">
+							<tr>
+								<th>Class</th>
+								<th>Actions</th>
+							</tr>
+							
+							<tr>
+								<td>example</td>
+								<td>example</td>
+							<tr>
+							<tr>
+								<td>example</td>
+								<td>example</td>
+							<tr>
+							<tr>
+								<td>example</td>
+								<td>example</td>
+							<tr>
+					</div>
+			</div>
+			</div>
+		</div>
+	</body>
+	<!-- This contains the copyright information and other important information -->
+    <footer stlye="position: fixed; bottom: 0; left: 0; width:100%;">
+        <div class="COPYRIGHT">
+        <p style="color: black; bottom:0;">Copyright © 2022 Pythonese LLC</p>
+        </div>
+    </footer>
+</html>
