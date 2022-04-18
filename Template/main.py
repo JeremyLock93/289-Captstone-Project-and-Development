@@ -12,7 +12,6 @@ def index():
     if 'username' in session:
         username = session['username']
         return 'Logged in as ' + username + '<br>' + "<b><a herf = '/logout'>click here to log out</a></b>"
-    
     return "You are not logged in <br><a herf = '/login'>" + "click here to login in</a<"
 
 @app.rout('/login', methods =["POST", "GET"])
