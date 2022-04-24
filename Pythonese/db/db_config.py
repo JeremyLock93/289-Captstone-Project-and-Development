@@ -1,7 +1,9 @@
-import mysql.connector
+import MySQLdb
 
-cnx = mysql.connector.connect(user = '', 
+def connection():
+    cnx = MySQLdb.connect(user = 'root', 
                               password = '',
-                              host = '', 
-                              database = '')
+                              host = 'localhost', 
+                              database = 'Templholic_DB')
 
+    c = cnx.cursor()
