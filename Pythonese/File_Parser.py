@@ -106,6 +106,7 @@ def ParseDOCX(file_P_DOCX):
     return CLASS_NAME, DATA_FORMATTED_DOCX
 
 def files(num):
+    #File name Section
     if num == 1:
         file = "CSC_289_CAP.csv"
         return file
@@ -117,8 +118,16 @@ def files(num):
         return file
 
 def CreateCSV(path,file, CLASS_NAME, DATA_FORMATTED):
-    #fname = os.path.join(path, file)
-    with open(file,"w+") as f:
+    #Creating CSV
+    
+    #### FOR WEB PATH STUFF
+    #dir_path = os.path.abspath("/home/Pythonese/mysite/Filers")
+    #File Directory Below
+    dir_path = "C:\\Users\\lord_\\289-Captstone-Project-and-Development(tmp)\\File_Parser\\Filers"
+    #Check Directory if exists and it doesn't create it
+    os.makedirs(dir_path, exist_ok=True)
+    #Joining the path with the file name
+    with open(os.path.join(dir_path,file),"w+") as f:
         keys=DATA_FORMATTED[0].keys()
         writer = csv.DictWriter(f, fieldnames=keys)
         writer.writeheader()
@@ -130,9 +139,18 @@ def CreateCSV(path,file, CLASS_NAME, DATA_FORMATTED):
         #     DATA_FORMATTED_CSV.append(row)
     
 def CreateDOCX(path,file, CLASS_NAME, DATA_FORMATTED):
-    document = Document()
-    fname = os.path.join(path, file)
+    #Create DOCX
     
+    ### WEB PATH STUFF
+    # dir_path = os.path.abspath("/home/Pythonese/mysite/Filers")
+    #File Directory Below
+    dir_path = "C:\\Users\\lord_\\289-Captstone-Project-and-Development(tmp)\\File_Parser\\Filers"
+    #Check Directory if exists and it doesn't create it
+    os.makedirs(dir_path, exist_ok=True)
+    
+    fname = os.path.join(dir_path, file)
+    
+    document = Document()
     
     b = document.add_paragraph()
     b.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER

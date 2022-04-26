@@ -24,8 +24,9 @@ def main():
     ''' This menu function is formatted to prevent error '''
     # Folder Path
     ### THIS FILE PATH MUST BE CHANGED BEFORE BEING USED
-    #basepath = "C:\\Users\\lord_\\289-Captstone-Project-and-Development(tmp)\\File_Parser\\TemplateFolder"
-    basepath = os.path.abspath("/home/Pythonese/mysite/TemplateFolder")
+    basepath = "C:\\Users\\lord_\\289-Captstone-Project-and-Development(tmp)\\File_Parser\\TemplateFolder"
+    #### WEB PATH
+    #basepath = os.path.abspath("/home/Pythonese/mysite/TemplateFolder")
     # Verify the path if it's valid
     assert os.path.exists(basepath), "I did not find the directory at, "+str(basepath)
         
