@@ -4,8 +4,9 @@ import os
 from flask import Flask, redirect, url_for, render_template, request, send_file
 
 app = Flask(__name__)
+USER_FOLDER = os.path.join("static","user_data")
 
-
+app.config["User_Folder"] = USER_FOLDER
 
 @app.route("/home")
 @app.route("/")
@@ -25,7 +26,19 @@ def templates():
 
 @app.route("/profile")
 def profile():
-    return render_template("profile.html")
+    PROFILE_PIC = "NONE" #os.path.join(app.config['user_data'], 'profile_pic.jpg')
+    USERNAME = "NONE" #os.path.join(app.config['user_data'], 'user_info.json')
+    NAME = "NONE" #os.path.join(app.config['user_data'], 'user_info.json')
+    EMAIL = "NONE" #os.path.join(app.config['user_data'], 'user_info.json')
+    PASSWORD = "NONE" #os.path.join(app.config['user_data'], 'user_info.json')
+    return render_template("profile.html",
+        PROFILE_PIC = PROFILE_PIC,
+        USERNAME = USERNAME,
+        NAME = NAME,
+        EMAIL = EMAIL,
+        PASSWORD = PASSWORD)
+    
+
 
 
 @app.route("/loggin")
