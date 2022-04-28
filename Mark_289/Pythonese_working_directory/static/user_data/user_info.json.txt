@@ -1,0 +1,7 @@
+[
+	{
+		"username": "PutnamM",
+		"name": "Mark Putnam",
+		"email": "putnamm@gmail.com",
+		"password": "password123"
+		}
