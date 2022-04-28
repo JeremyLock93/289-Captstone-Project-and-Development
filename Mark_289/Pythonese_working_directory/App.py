@@ -4,9 +4,9 @@ import os
 from flask import Flask, redirect, url_for, render_template, request, send_file
 
 app = Flask(__name__)
-USER_FOLDER = os.path.join("static","user_data")
+USER_DATA = os.path.join('static','user_data')
 
-app.config["User_Folder"] = USER_FOLDER
+app.config['user_info'] = USER_DATA
 
 @app.route("/home")
 @app.route("/")
@@ -26,17 +26,17 @@ def templates():
 
 @app.route("/profile")
 def profile():
-    PROFILE_PIC = "NONE" #os.path.join(app.config['user_data'], 'profile_pic.jpg')
-    USERNAME = "NONE" #os.path.join(app.config['user_data'], 'user_info.json')
-    NAME = "NONE" #os.path.join(app.config['user_data'], 'user_info.json')
-    EMAIL = "NONE" #os.path.join(app.config['user_data'], 'user_info.json')
-    PASSWORD = "NONE" #os.path.join(app.config['user_data'], 'user_info.json')
+    PROFILE_PIC = os.path.join(app.config['user_info'], 'profile_pic.jpg')
+    USERNAME = os.path.join(app.config['user_info'], 'user_info.json')
+    NAME = os.path.join(app.config['user_info'], 'user_info.json')
+    EMAIL = os.path.join(app.config['user_info'], 'user_info.json')
+    PASSWORD = os.path.join(app.config['user_info'], 'user_info.json')
     return render_template("profile.html",
-        PROFILE_PIC = PROFILE_PIC,
-        USERNAME = USERNAME,
-        NAME = NAME,
-        EMAIL = EMAIL,
-        PASSWORD = PASSWORD)
+        profile_pic = PROFILE_PIC,
+        username = USERNAME,
+        name = NAME,
+        email = EMAIL,
+        password = PASSWORD)
     
 
 
