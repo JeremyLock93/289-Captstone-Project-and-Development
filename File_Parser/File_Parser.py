@@ -8,6 +8,7 @@
 import os
 import csv
 import docx
+import json
 from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
@@ -40,7 +41,7 @@ def main():
 def ParseCSV(file_P_CSV):
     # Strips the file extention and assigns it as the Class_name
     size = len(file_P_CSV)
-    CLASS_NAME = file_P_CSV[size - 20:size - 9]
+    CLASS_NAME = file_P_CSV[size - 24:size - 13]
     """
     Get the characters from position 2 to position 5 (not included):
 
@@ -67,7 +68,7 @@ def ParseDOCX(file_P_DOCX):
     
     # Chops off the file extention and assigns it to the class name
     size = len(file_P_DOCX)
-    CLASS_NAME = file_P_DOCX[size - 20:size - 9]
+    CLASS_NAME = file_P_DOCX[size - 24:size - 13]
     """
     Get the characters from position 2 to position 5 (not included):
 
@@ -91,7 +92,7 @@ def ParseDOCX(file_P_DOCX):
     data_keys.append(data[2])
     
     # Iterates through the list and appends the dictionary key value pairs to the DATA_FORMATTED list 
-    DATA_FORMATTED_DOCX = []
+    DATA_FORMATTED_DOCX = {}
     count = int((len(data) / 3) - 1)
     index = 3
     for _ in range(count):
@@ -105,16 +106,33 @@ def ParseDOCX(file_P_DOCX):
     return CLASS_NAME, DATA_FORMATTED_DOCX
 
 def files(num):
+    #File name Section
     if num == 1:
+        #file = student
         file = "CSC_289_CAP.csv"
         return file
     elif num == 2:
+        #file = student
         file = "CSC_289_CAP.docx"
+        return file
+    elif num == 4:
+        file = "JSONFILE.json"
         return file
 
 def CreateCSV(path,file, CLASS_NAME, DATA_FORMATTED):
-    fname = os.path.join(path, file)
-    with open(file,"w+") as f:
+    #Creating CSV
+    
+    #### FOR WEB PATH STUFF
+    #dir_path = os.path.abspath("/home/Pythonese/mysite/Filers/")
+    #dir_path += users
+    #File Directory Below
+    user = "Taylor" #Database connection
+    dir_path = "C:\\Users\\lord_\\289-Captstone-Project-and-Development(tmp)\\File_Parser\\Filers\\"
+    dir_path += user
+    #Check Directory if exists and it doesn't create it
+    os.makedirs(dir_path, exist_ok=True)
+    #Joining the path with the file name
+    with open(os.path.join(dir_path,file),"w+") as f:
         keys=DATA_FORMATTED[0].keys()
         writer = csv.DictWriter(f, fieldnames=keys)
         writer.writeheader()
@@ -126,9 +144,20 @@ def CreateCSV(path,file, CLASS_NAME, DATA_FORMATTED):
         #     DATA_FORMATTED_CSV.append(row)
     
 def CreateDOCX(path,file, CLASS_NAME, DATA_FORMATTED):
-    document = Document()
-    fname = os.path.join(path, file)
+    #Create DOCX
     
+    ### WEB PATH STUFF
+    # dir_path = os.path.abspath("/home/Pythonese/mysite/Filers/")
+    #File Directory Below
+    user = "Taylor" #Database connection
+    dir_path = "C:\\Users\\lord_\\289-Captstone-Project-and-Development(tmp)\\File_Parser\\Filers\\"
+    dir_path += user
+    #Check Directory if exists and it doesn't create it
+    os.makedirs(dir_path, exist_ok=True)
+    
+    fname = os.path.join(dir_path, file)
+    
+    document = Document()
     
     b = document.add_paragraph()
     b.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
@@ -151,6 +180,12 @@ def CreateDOCX(path,file, CLASS_NAME, DATA_FORMATTED):
         row_cells[2].text = str(item['Comment'])
         
     document.save(fname)
- 
+
+def Create_JSON(path,file, CLASS_NAME, DATA_FORMATTED):
+    with open(file,"w+") as f:
+        ##Test JSON Format
+        dict_stuff = {"className":CLASS_NAME,"assignments":DATA_FORMATTED}
+        json.dump(dict_stuff,f, indent=3)
+
 if __name__ == ("__main__"):
     main()
