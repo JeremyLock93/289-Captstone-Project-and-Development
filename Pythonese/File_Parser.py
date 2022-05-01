@@ -41,7 +41,7 @@ def main():
 def ParseCSV(file_P_CSV):
     # Strips the file extention and assigns it as the Class_name
     size = len(file_P_CSV)
-    CLASS_NAME = file_P_CSV[size - 20:size - 9]
+    CLASS_NAME = file_P_CSV[size - 24:size - 13]
     """
     Get the characters from position 2 to position 5 (not included):
 
@@ -68,7 +68,7 @@ def ParseDOCX(file_P_DOCX):
     
     # Chops off the file extention and assigns it to the class name
     size = len(file_P_DOCX)
-    CLASS_NAME = file_P_DOCX[size - 20:size - 9]
+    CLASS_NAME = file_P_DOCX[size - 24:size - 13]
     """
     Get the characters from position 2 to position 5 (not included):
 
@@ -92,7 +92,7 @@ def ParseDOCX(file_P_DOCX):
     data_keys.append(data[2])
     
     # Iterates through the list and appends the dictionary key value pairs to the DATA_FORMATTED list 
-    DATA_FORMATTED_DOCX = []
+    DATA_FORMATTED_DOCX = {}
     count = int((len(data) / 3) - 1)
     index = 3
     for _ in range(count):
@@ -108,9 +108,11 @@ def ParseDOCX(file_P_DOCX):
 def files(num):
     #File name Section
     if num == 1:
+        #file = student
         file = "CSC_289_CAP.csv"
         return file
     elif num == 2:
+        #file = student
         file = "CSC_289_CAP.docx"
         return file
     elif num == 4:
@@ -121,9 +123,12 @@ def CreateCSV(path,file, CLASS_NAME, DATA_FORMATTED):
     #Creating CSV
     
     #### FOR WEB PATH STUFF
-    #dir_path = os.path.abspath("/home/Pythonese/mysite/Filers")
+    #dir_path = os.path.abspath("/home/Pythonese/mysite/Filers/")
+    #dir_path += users
     #File Directory Below
-    dir_path = "C:\\Users\\lord_\\289-Captstone-Project-and-Development(tmp)\\File_Parser\\Filers"
+    user = "Taylor" #Database connection
+    dir_path = "C:\\Users\\lord_\\289-Captstone-Project-and-Development(tmp)\\File_Parser\\Filers\\"
+    dir_path += user
     #Check Directory if exists and it doesn't create it
     os.makedirs(dir_path, exist_ok=True)
     #Joining the path with the file name
@@ -142,9 +147,11 @@ def CreateDOCX(path,file, CLASS_NAME, DATA_FORMATTED):
     #Create DOCX
     
     ### WEB PATH STUFF
-    # dir_path = os.path.abspath("/home/Pythonese/mysite/Filers")
+    # dir_path = os.path.abspath("/home/Pythonese/mysite/Filers/")
     #File Directory Below
-    dir_path = "C:\\Users\\lord_\\289-Captstone-Project-and-Development(tmp)\\File_Parser\\Filers"
+    user = "Taylor" #Database connection
+    dir_path = "C:\\Users\\lord_\\289-Captstone-Project-and-Development(tmp)\\File_Parser\\Filers\\"
+    dir_path += user
     #Check Directory if exists and it doesn't create it
     os.makedirs(dir_path, exist_ok=True)
     
@@ -176,7 +183,9 @@ def CreateDOCX(path,file, CLASS_NAME, DATA_FORMATTED):
 
 def Create_JSON(path,file, CLASS_NAME, DATA_FORMATTED):
     with open(file,"w+") as f:
-        json.dump(DATA_FORMATTED,f, indent=3)
+        ##Test JSON Format
+        dict_stuff = {"className":CLASS_NAME,"assignments":DATA_FORMATTED}
+        json.dump(dict_stuff,f, indent=3)
 
 if __name__ == ("__main__"):
     main()

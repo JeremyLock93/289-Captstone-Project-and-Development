@@ -39,7 +39,10 @@ def main():
                 f = os.path.join(basepath, filename)
                 if os.path.isfile(f) and filename.endswith(".csv"): # Check whether file is in csv format or not
                     CLASS_NAME, DATA_FORMATTED = fp.ParseCSV(f)
+                    ##FileName
                     num1 = 1
+                    ##Student Name
+                    #student = ""
                     file = fp.files(num1)
                     fp.CreateCSV(basepath,file, CLASS_NAME, DATA_FORMATTED)
         elif selection == '2':
@@ -47,7 +50,9 @@ def main():
                 f = os.path.join(basepath, filename)
                 if os.path.isfile(f) and filename.endswith("ocx"): # Check whether file is in docx format or not
                     CLASS_NAME, DATA_FORMATTED = fp.ParseDOCX(f)
+                    ##FileName
                     num1 = 2
+                    #StudentName
                     file = fp.files(num1)
                     fp.CreateDOCX(basepath,file, CLASS_NAME, DATA_FORMATTED)
         elif selection == '3':
@@ -57,6 +62,7 @@ def main():
             assert os.path.exists(basepath), "I did not find the directory at, "+str(basepath)
             Parsers(basepath)
         elif selection == '4':
+            #JSON CREATION
             for filename in os.listdir(basepath):
                 f = os.path.join(basepath, filename)
                 if os.path.isfile(f) and filename.endswith(".csv"): # Check whether file is in csv format or not
