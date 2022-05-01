@@ -1,0 +1,3 @@
+Adding users to the users table:
+
+INSERT INTO `users` VALUES (null,'Username','Last_Name','First_Name','Email','password','affiliation(A,S,T)',CURRENT_TIMESTAMP);

@@ -1,0 +1,20 @@
+{
+  "className": "CSC-289-CAP",
+  "assignments": [
+    {
+      "name": "M1HW1",
+      "dueDate": "21-Jan-22",
+      "comments": "Upload a picture of your Github activity."
+    },
+    {
+      "name": "M1HW2",
+      "dueDate": "30-Jan-22",
+      "comments": "Upload your groups power point presentation."
+    },
+    {
+      "name": "M2HW1",
+      "dueDate": "5-Feb-22",
+      "comments": "Upload a word document about your sprint."
+    }
+  ]
+}
