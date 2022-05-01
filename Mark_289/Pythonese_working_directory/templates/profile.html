@@ -56,7 +56,15 @@
             <div class="col">
             <!--Profile Pic -->
             <img src="{{ profile_pic }}" alt="Image not found">
+            
             </div>
+            <form action="/upload-image" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <input type="file" class="custom-file-input" name="image" id="image">
+              <label class="customer-file-label" for="image">Select image...</label>
+            </div>
+            <button class="btn btn-black">Upload</button>
+            </form>
             
             
           
@@ -68,16 +76,27 @@
                     <th><h1>User Profile</h1></th>
                   </tr>
                   <tr>
-                    <td>{{Username}}</td>
+                    <td>Username: {{username}}</td>
                   </tr>
                   <tr>
-                    <td>{{name}}</td>
+                    <td> Name: {{name}}</td>
                   </tr>
                   <tr>
-                    <td>{{email}}</td>
+                    <td>Email: {{email}}</td>
                   </tr>
                   <tr>
-                    <td>{{Password}}<button class="btn btn-secondary">Click to view</button></td>
+                    <td id="myDIV"></td>
+                    <td><button onclick="myFunction()" class="btn btn-secondary">Click to view</button></td>
+                    <script>
+                    function myFunction() {
+                      var x = document.getElementById("myDIV");
+                      if (x.innerHTML === "{{password}}") {
+                        x.innerHTML = "";
+                      } else {
+                        x.innerHTML = "{{password}}";
+                      }
+                    }
+                    </script>
                   </tr>
                 </table>
               </div>
