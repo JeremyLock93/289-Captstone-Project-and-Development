@@ -2,13 +2,19 @@ import sys
 import io
 import os
 from flask import Flask, redirect, url_for, render_template, request, send_file
+from flask_mysqldb import MySQL
 from wtforms import Form, BooleanField, TextField, PasswordField, validators
 from passlib.hash import sha256_crypt
-from MySQLdb import escape_string as thwart
 import gc
 
 app = Flask(__name__)
 
+app.config['MYSQL_HOST'] = 'Pythonese.mysql.pythonanywhere-services.com'
+app.config['MYSQL_USER'] = 'Pythonese'
+app.config['MYSQL_PASSWORD'] = 'password-123'
+app.config['MYSQL_DB'] = 'Pythonese$Templiholic_DB'
+
+mysql = MySQL(app)
 
 
 @app.route("/home", methods = ['GET', 'POST'])
@@ -30,8 +36,15 @@ def templates():
 @app.route("/profile", methods = ['GET', 'POST'])
 def profile():
         return render_template("profile.html")
-      
 
+
+@app.route("/loggin", methods = ['GET', 'POST'])
+def loggin():
+    return render_template("loggin.html")      
+
+
+#WE NEED TO RE_WORK THE LOGGIN
+"""
 @app.route("/loggin", methods = ['GET', 'POST'])
 def loggin():
     error = ''
@@ -57,15 +70,47 @@ def loggin():
     
     except Exception as e:
         error = "Invalid credentials Please Try again"
+"""
+
+
+@app.route("/sign-up", methods = ['GET', 'POST'])
+def sign_up():
+    return render_template("sign_up.html")    
+
+
+#WE NEED TO FINISH UP THE USER CREATION DATA VALIDATION        
+@app.route('/signup', methods = ['POST', 'GET'])
+def login():
+    if request.method == 'GET':
+        return "Login via the login Form"
+
+    if request.method == 'POST':
+        username = request.form['username']
+        lastname = request.form['lastname']
+        firstname = request.form['firstname']
+        email = request.form['email']
+        email = email.lower()
+        password = request.form['password']
+        affiliation = request.form['affiliation']
+        if affiliation == "Student":
+            affiliation = 'S'
+        else:
+            affiliation = 'T'
+
+        cursor = mysql.connection.cursor()
+        cursor.execute(''' INSERT INTO users VALUES(null,%s,%s,%s,%s,%s,%s,CURRENT_TIMESTAMP)''',(username,lastname,firstname,email,password,affiliation))
+        mysql.connection.commit()
+        cursor.close()
+        return render_template("index.html")
     
-        
-
-
+    
+    
+"""
 @app.route("/sign-up", methods = ['GET', 'POST'])
 class RegistrationForm(form):
     username = TextField('UserName',[validators.Length(min=5, max = 15)])
     lastname = TextField('LastName', [validators.Length(min=5, max=20)])
-    firstname = TextField('FirstName', [Validators.Length(min=5, max=15)])
+    firstname = TextField('FirstName', [validators.Length(min=5, max=15)])
     email = TextField('Email', [validators.Length(min=6, max=30)])
     password = PasswordField('Password', [
         validators.Required(),
@@ -113,7 +158,7 @@ class RegistrationForm(form):
             
         except Exception as e:
             return(str(e))
-        
+"""        
 
 
 if __name__ == "__main__":
