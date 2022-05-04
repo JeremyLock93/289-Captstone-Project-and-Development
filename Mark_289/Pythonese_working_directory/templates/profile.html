@@ -15,6 +15,8 @@
 
 
         <title>Templiholic</title>
+
+        
     </head>
 
     <!-- This is where the nav bar goes -->
@@ -52,10 +54,10 @@
       <br>
       <body style="background-color: #E6E6FA;">
         <div class="container">
-          <div class="row" style="">
+          <div class="col" style="">
             <div class="col">
             <!--Profile Pic -->
-            <img src="{{ profile_pic }}" alt="Image not found">
+            <img src="{{ profile_pic }}" alt="Image not found" style="border:3px solid #ddd; border-radius: 50%; width: 200px; height: 200px;">
             
             </div>
             <form action="/upload-image" method="POST" enctype="multipart/form-data">
@@ -63,17 +65,19 @@
               <input type="file" class="custom-file-input" name="image" id="image">
               <label class="customer-file-label" for="image">Select image...</label>
             </div>
-            <button class="btn btn-black">Upload</button>
+            <button class="btn btn-secondary">Upload</button>
             </form>
-            
-            
+          </div>
+
+          <br>  
+          <br>
           
           <div class="col">
-              <div class="row" style="">
+              <div class="col" style="">
                 <!-- Profile Data -->
                 <table class="table table-striped" style="background-color:FFFFFF;">
                   <tr>
-                    <th><h1>User Profile</h1></th>
+                    <th><h1 style="font-size: 2vw;">User Profile</h1></th>
                   </tr>
                   <tr>
                     <td>Username: {{username}}</td>
@@ -85,40 +89,28 @@
                     <td>Email: {{email}}</td>
                   </tr>
                   <tr>
+                    
+
                     <td id="myDIV"></td>
-                    <td><button onclick="myFunction()" class="btn btn-secondary">Click to view</button></td>
+                  <tr>
+                    <td><button onclick="myFunction()" class="btn btn-secondary">Click to view password</button></td>
                     <script>
                     function myFunction() {
                       var x = document.getElementById("myDIV");
                       if (x.innerHTML === "{{password}}") {
-                        x.innerHTML = "";
+                        x.innerHTML = "<br>";
                       } else {
                         x.innerHTML = "{{password}}";
                       }
                     }
                     </script>
+                    </tr>
                   </tr>
                 </table>
               </div>
               <div class="row" style="">
-                <table class="table table-bordered">
-                  <tr>
-                    <th>Class</th>
-                    <th>Actions</th>
-                  </tr>
-                  
-                  <tr>
-                    <td>example</td>
-                    <td>example</td>
-                  <tr>
-                  <tr>
-                    <td>example</td>
-                    <td>example</td>
-                  <tr>
-                  <tr>
-                    <td>example</td>
-                    <td>example</td>
-                  <tr>
+                <table class="table table-bordered" id ="table"></table>
+                
               </div>
           </div>
           </div>

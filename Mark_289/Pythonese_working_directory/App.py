@@ -55,7 +55,7 @@ def profile():
 
 
 
-
+'''
 @app.route("/upload-image", methods=['GET','POST'])
 def upload_file():
     if request.method == 'POST':
@@ -73,7 +73,7 @@ def upload_file():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('download_file', name=filename))
-    return 
+    return '''
 
 
 
