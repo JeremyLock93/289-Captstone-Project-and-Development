@@ -47,81 +47,49 @@
       </header>
 
       <!-- This is where the main guts of the web page goes -->
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
       <body style="background-color: #E6E6FA;">
-        <div class="container" style="position:absolute; top: 40%; left:50%; transform: translate(-50%,-50%); width:650px;height:400px;">
-          <div class="col" style="">
+          <div class="container" style="position:absolute; top: 40%; left:50%; transform: translate(-50%,-50%); width:580px;height:400px;">
             <div class="col" style="padding: 1em;">
-            <!--Profile Pic -->
-            
-            <img src="/static/stockimage/profile_pic.jpg" alt="Image not found" style="border:3px solid #ddd; border-radius: 50%; width: 200px; height: 200px;">
+              <!--Profile Pic -->
+              <img src="/static/stockimage/profile_pic.jpg" alt="Image not found" style="border:3px solid #ddd; border-radius: 50%; width: 200px; height: 200px;">
             </div>
             <div class="profiletable">
-            <table class="table table-striped" style="background-color:#FFF; ">
-              <tr>
-                <th><h1 style="font-size: 2vw; ">User Profile</h1></th>
-              </tr>
-              <tr>
-                <td><b>Username:</b> {{username}}</td>
-              </tr>
-              <tr>
-                <td><b>Name:</b> {{name}}</td>
-              </tr>
-              <tr>
-                <td><b>Email:</b> {{email}}</td>
-              </tr>
-              <tr>
-                
-
-                <td id="myDIV"></td>
-              <tr>
-                <td><button onclick="myFunction()" class="btn btn-secondary">Click to view password</button></td>
-                <script>
-                function myFunction() {
-                  var x = document.getElementById("myDIV");
-                  if (x.innerHTML === "{{password}}") {
-                    x.innerHTML = "<br>";
-                  } else {
-                    x.innerHTML = "{{password}}";
-                  }
-                }
-                </script>
-                </tr>
-              </tr>
-
-            </table>
+              <table class="table table-striped" style="background-color:#FFF; ">
+                  <tr>
+                    <th><h1 style="font-size: 2vw; ">User Profile</h1></th>
+                  </tr>
+                  <tr>
+                    <td><b>Username:</b> {{username}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Name:</b> {{name}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Email:</b> {{email}}</td>
+                  </tr>
+                  <tr>
+                    <td id="myDIV"></td>
+                    <tr>
+                      <td>
+                        <button onclick="myFunction()" class="btn btn-secondary">Click to view password</button>
+                      </td>
+                      <script>
+                        function myFunction() {
+                          var x = document.getElementById("myDIV");
+                          if (x.innerHTML === "{{password}}") {
+                            x.innerHTML = "<br>";
+                          } else {
+                            x.innerHTML = "{{password}}";
+                          }
+                        }
+                      </script>
+                    </tr>
+                  </tr>
+                </table>
             </div>  
           </div>
-            <!--
-            <form action="/upload-image" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-              <input type="file" class="custom-file-input" name="image" id="image">
-              <label class="customer-file-label" for="image">Select image...</label>
-            </div>
-            <button class="btn btn-secondary">Upload</button>
-            </form>
-          -->
-          
 
-          
-          
-          
-              
-          
-          </div>
-        </div>
-      </body>
-
-
-
-
-
-
-            
+      
       <!-- This contains the copyright information and other inportant information -->
       <footer>
           <div class="COPYRIGHT" style="align-content: center;">
