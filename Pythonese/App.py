@@ -3,32 +3,30 @@ import io
 import os
 from flask import Flask, redirect, url_for, render_template, request, send_file
 from flask_mysqldb import MySQL
-from wtforms import Form, BooleanField, TextField, PasswordField, validators
-from passlib.hash import sha256_crypt
-import gc
+import bcrypt
+from markupsafe import Markup
 
 app = Flask(__name__)
 
-app.config['MYSQL_HOST'] = 'Pythonese.mysql.pythonanywhere-services.com'
-app.config['MYSQL_USER'] = 'Pythonese'
-app.config['MYSQL_PASSWORD'] = 'password-123'
-app.config['MYSQL_DB'] = 'Pythonese$Templiholic_DB'
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'password'
+app.config['MYSQL_DB'] = 'templiholics_db'
 
 mysql = MySQL(app)
 
-
-@app.route("/home", methods = ['GET', 'POST'])
-@app.route("/", methods = ['GET', 'POST'])
+@app.route("/home")
+@app.route("/")
 def index():
 	return render_template("index.html")
 
 
-@app.route("/calendar", methods = ['GET', 'POST'])
+@app.route("/calendar")
 def calendar():
     return render_template("calendar.html")
 
 
-@app.route("/templates", methods = ['GET', 'POST'])
+@app.route("/templates")
 def templates():
     return render_template("templates.html")
 
@@ -37,66 +35,65 @@ def templates():
 def profile():
     userRecord = Test()
 
-
     return render_template("profile.html",
         username = userRecord[1],
         name = userRecord[3] +" "+ userRecord[2],
         email = userRecord[4],
         password = userRecord[5])
 
-@app.route("/loggin", methods = ['GET', 'POST'])
+
+@app.route("/loggin")
 def loggin():
-    return render_template("loggin.html")      
+    return render_template("loggin.html")
 
 
-#WE NEED TO RE_WORK THE LOGGIN
-"""
-@app.route("/loggin", methods = ['GET', 'POST'])
-def loggin():
-    error = ''
-    try:
-        cnx, conn = connecetion()
-        if request == 'POST':
-            data = cnx.execute("SELECT * FROM users WHERE username = (%s)",
-                           thwart(request.form['username']))
-            data = cnx.fetchone()[2]
-            
-            if sha256_crypt.verify(request.form['password'], data):
-                session['logged_in'] = True
-                session['username'] = request.form['username']
-            
-            flash("You are now Logged In")
-            return redirect(url_for("home"))
-        
-        else:
-            error = "Invalid credentials Please Try again"
-        gc.collect()  
-            
-        return render_template("loggin.html")
-    
-    except Exception as e:
-        error = "Invalid credentials Please Try again"
-"""
-
-
-@app.route("/sign-up", methods = ['GET', 'POST'])
-def sign_up():
-    return render_template("sign_up.html")    
-
-
-#WE NEED TO FINISH UP THE USER CREATION DATA VALIDATION        
-@app.route('/signup', methods = ['POST', 'GET'])
-def login():
+@app.route("/log", methods = ['POST', 'GET'])
+def log():
     if request.method == 'GET':
         return "Login via the login Form"
 
     if request.method == 'POST':
-        username = request.form['username']
-        lastname = request.form['lastname']
-        firstname = request.form['firstname']
         email = request.form['email']
         email = email.lower()
         password = request.form['password']
+
+        cursor = mysql.connection.cursor()
+        cursor.execute(''' SELECT Password FROM users WHERE Email LIKE '{0}' '''.format(email))
+        user = cursor.fetchall()
+        cursor.close()
+        
+        dbpass = user[0][0]
+
+        if bcrypt.checkpw(password.encode('utf-8'), dbpass.encode('utf-8')):
+            return render_template('index.html')
+        else:
+            popUp = invalidLog()
+            return render_template('loggin.html', popUp = popUp)
+
+
+@app.route("/sign-up")
+def sign_up():
+    return render_template("sign_up.html")
+
+
+@app.route('/signup', methods = ['POST', 'GET'])
+def signup():
+    if request.method == 'GET':
+        return "Sign up via the sign upForm"
+
+    if request.method == 'POST':
+        username = request.form['username']
+
+        lastname = request.form['lastname']
+
+        firstname = request.form['firstname']
+
+        email = request.form['email']
+        email = email.lower()
+
+        password = request.form['password']
+        hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
         affiliation = request.form['affiliation']
         if affiliation == "Student":
             affiliation = 'S'
@@ -104,67 +101,32 @@ def login():
             affiliation = 'T'
 
         cursor = mysql.connection.cursor()
-        cursor.execute(''' INSERT INTO users VALUES(null,%s,%s,%s,%s,%s,%s,CURRENT_TIMESTAMP)''',(username,lastname,firstname,email,password,affiliation))
+        cursor.execute(''' INSERT INTO users VALUES(null,%s,%s,%s,%s,%s,%s,CURRENT_TIMESTAMP)''',(username,lastname,firstname,email,hashed,affiliation))
         mysql.connection.commit()
         cursor.close()
+
         return render_template("index.html")
-    
-    
-    
-"""
-@app.route("/sign-up", methods = ['GET', 'POST'])
-class RegistrationForm(form):
-    username = TextField('UserName',[validators.Length(min=5, max = 15)])
-    lastname = TextField('LastName', [validators.Length(min=5, max=20)])
-    firstname = TextField('FirstName', [validators.Length(min=5, max=15)])
-    email = TextField('Email', [validators.Length(min=6, max=30)])
-    password = PasswordField('Password', [
-        validators.Required(),
-        validators.EqualTo('confirm', message='Passwords must match')
-        ])
-    confirm = PasswordField('Repeat Password')
-    affliation = TextField('Affliation', [validators.required])
-    accept_tos = BooleanField('I accept the Terms of Service', [validators.Required()])
-    
-    def sign_up():
-        try:
-            form = RegistrationForm(request.form)
-            
-            if request.method == 'POST' and form.validate():
-                username = form.username.data
-                lasname = form.lastname.data
-                firstname = form.firstname.data
-                email = form.email.data
-                password = shaw256.encrypt((str(form.password.data)))
-                affliation = form.affliation.data
-                cnx, conn = mysql.connector.connect(user= 'root')
-                
-                x = cnx.execute("SELECT * FROM user WHERE username = (%s)",
-                                (thwart(username)))
-                
-                if int(x) > 0:
-                    flash("That username is already taken, please choose another")
-                    return render_template("sign_up.html", form=form)
-                else: 
-                    cnx.execute("INSERT INTO users (username, lastname, firstname, email, password, affliation) VALUES (%s, %s, %s, %s, %s, %s)",
-                                (thwart(username), thwart(lastname), thwart(firstname), thwart(email), thwart(password), thwart(affiliation)))
-                    
-                    cnx.commit()
-                    flash("Thank you for registering")
-                    cnx.close()
-                    conn.close()
-                    gc.collect()
-                    
-                    session['logged_in'] = True
-                    session['username'] = username
-                    
-                    return redirect(url_for('/home'))
-                
-                return render_template("sign_up.html")
-            
-        except Exception as e:
-            return(str(e))
-"""        
+
+
+
+def invalidLog():
+    return Markup("""
+                    <div class="popup active" id="popup-1">
+                        <div class="overlay"></div>
+                        <div class="content">
+                            <div class="close-btn" onclick="togglePopup()">&times;</div>
+                            <h1>Invalid credentials</h1>
+                            <p>You may have entered in the wrong email or password for your account</p>
+                        </div>
+                    </div>
+                    <script>
+                        function togglePopup(){
+                            document.getElementById("popup-1").classList.toggle("active");
+                        }
+                    </script>
+                """)
+
+
 def Test():
     USID = 1
     UserName = 'Admin'
@@ -179,5 +141,9 @@ def Test():
 
 
 
+
+
+
 if __name__ == "__main__":
 	app.run(debug=True)
+ 
