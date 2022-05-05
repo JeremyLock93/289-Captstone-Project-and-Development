@@ -33,10 +33,23 @@ def templates():
     return render_template("templates.html")
 
 
-@app.route("/profile", methods = ['GET', 'POST'])
+@app.route("/profile")
 def profile():
-        return render_template("profile.html")
+    
+    PROFILE_PIC = os.path.join(app.config['user_info'], 'profile_pic.jpg')
+    '''USERNAME = os.path.join(app.config['user_info'], 'user_info.json')
+    NAME = os.path.join(app.config['user_info'], 'user_info.json')
+    EMAIL = os.path.join(app.config['user_info'], 'user_info.json')
+    PASSWORD = os.path.join(app.config['user_info'], 'user_info.json')'''
+    userRecord = Test()
 
+
+    return render_template("profile.html",
+        profile_pic = PROFILE_PIC,
+        username = userRecord[1],
+        name = userRecord[3] +" "+ userRecord[2],
+        email = userRecord[4],
+        password = userRecord[5])
 
 @app.route("/loggin", methods = ['GET', 'POST'])
 def loggin():
