@@ -16,6 +16,12 @@ body {
     text-align: center;
   }
 
+
+.container .profiletable b {
+	font-size: 22px;
+	align-content: left;
+	
+}
 /* Header & Navbar */
 header {
 	position: absolute;
