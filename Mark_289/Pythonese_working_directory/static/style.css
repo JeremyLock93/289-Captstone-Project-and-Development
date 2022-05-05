@@ -15,6 +15,14 @@ body {
     background-image: linear-gradient(to bottom left, #83b5cd, #125267);
     text-align: center;
   }
+  
+ 
+.container .profiletable b {
+	font-size: 22px;
+	align-content: left;
+	
+}
+
 
 /* Header & Navbar */
 header {
