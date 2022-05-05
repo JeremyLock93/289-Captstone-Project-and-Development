@@ -152,8 +152,7 @@ header .navbar {
     text-align: left;
     position: absolute;
     top: 50%; left: 50%;
-    transform: translateX(-50%)
-    translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
     min-width: 429px;
     margin: auto;
     background-color: #f3f3f3;
@@ -194,13 +193,14 @@ form #sign-up-link {
 	top: 50%;
 	left: 50%;
 	transform:translate(-50%,-50%) scale(0);
-	background: #fff;
+	background: #f3f3f3;
 	width: 450px;
 	height: 220px;
 	z-index: 2;
 	text-align: center;
 	padding:20px;
 	box-sizing: border-box;
+	border-radius: 8px;
 }
 
 .popup .content h1 {
@@ -215,7 +215,7 @@ form #sign-up-link {
 	top: 20px;
 	width: 30px;
 	height: 30px;
-	background: #e0e0e0;
+	background: #000;
 	color: #fff;
 	font-size: 25px;
 	font-weight: 600;
@@ -319,4 +319,8 @@ form #sign-up-link {
 	.page-heading {
 		display: none;	
     }
+
+	.form-container {
+		transform: translate(-50%,-50%);
+	}
 }
