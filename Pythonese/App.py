@@ -172,6 +172,18 @@ class RegistrationForm(form):
         except Exception as e:
             return(str(e))
 """        
+def Test():
+    USID = 1
+    UserName = 'Admin'
+    lastname = 'Templiholics'
+    firstname = 'Pythonese'
+    email = 'admin@Pythonese.com'
+    password = 'We_Are_A_Team$50'
+    affiliation = 'A'
+    datecreated = '2022-04-28 02:59:24'
+    return(USID,UserName,lastname,firstname,email,password,affiliation,datecreated)
+
+
 
 
 if __name__ == "__main__":
