@@ -1,11 +1,12 @@
-from email import message
 import sys
 import io
 import os
-from flask import Flask, redirect, url_for, render_template, request, send_file
-from flask_mysqldb import MySQL
 import bcrypt
+import re
+from flask import Flask, redirect, url_for, render_template, request, send_file, session
+from flask_mysqldb import MySQL
 from markupsafe import Markup
+from sqlalchemy import false
 
 app = Flask(__name__)
 
@@ -50,9 +51,6 @@ def loggin():
 
 @app.route("/log", methods = ['POST', 'GET'])
 def log():
-    if request.method == 'GET':
-        return "Login via the login Form"
-
     if request.method == 'POST':
         # Scrapes the loggin form text boxes
         email = request.form['email']
@@ -72,7 +70,7 @@ def log():
             dbpass = user[0][0]
         except IndexError:
             title = 'Invalid credentials'
-            message = 'You may have entered in the wrong email or password for your account'
+            message = '<li>You may have entered in the wrong email or password for your account.</li>'
             modal = popUp(title, message)
             return render_template('loggin.html', modal = modal)
 
@@ -82,7 +80,7 @@ def log():
             return render_template('index.html')
         else:
             title = 'Invalid credentials'
-            message = 'You may have entered in the wrong email or password for your account'
+            message = '<li>You may have entered in the wrong email or password for your account.</li>'
             modal = popUp(title, message)
             return render_template('loggin.html', modal = modal)
 
@@ -94,32 +92,96 @@ def sign_up():
 
 @app.route('/signup', methods = ['POST', 'GET'])
 def signup():
-    if request.method == 'GET':
-        return "Sign up via the sign upForm"
-
     if request.method == 'POST':
-        # Scrapes the sign up form text boxes
+# Initalized incase modal is needed
+        modal = False
+        title = 'Our apologies for the inconvenience'
+        message = ''
+        
+# Scrapes data from sign up form
         username = request.form['username']
-
         lastname = request.form['lastname']
-
         firstname = request.form['firstname']
-
         email = request.form['email'] # The email is stored in the DB in all lowercase letters, because it allows us to add their emails to a mailing list later on.
         email = email.lower()
-
         password = request.form['password']
-        hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()) # Default passes is 12 prefix is 2b
+        affiliation = request.form['affiliation'] 
+        
+# Validates the passwords requirements then hashes and salts the password
+        result = False
+        if len(password) < 6:
+           result = False 
+        
+        for char in password:
+            if char.isupper():
+                result = True
+                break
+            else:
+                result = False
+            
+        for char in password:
+            if char.islower():
+                result = True
+                break
+            else:
+                result = False
+            
+        regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+       
+        if(regex.search(password) != None):
+            result = True
+        else:
+            result = False
+        
+        if result == False:
+            message += "<li>Your password must contain an uppercase letter a lowercase letter and a symbol</li><br>"
+            modal = True
 
-        affiliation = request.form['affiliation'] # Alters the affiliation to be a single char for DB insert
+        hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()) # Default passes is 12 prefix is 2b
+        
+# Alters the affiliation to be a single char for DB insert
         if affiliation == "Student":
             affiliation = 'S'
         else:
             affiliation = 'T'
 
-        # Adds the user into the DB with their entered fields 
+# Query to check if user the username and/or email is in the DB already
+# & Modal creation if data exists
+        Exists = False
+
         cursor = mysql.connection.cursor()
-        cursor.execute(''' INSERT INTO users VALUES(null,%s,%s,%s,%s,%s,%s,CURRENT_TIMESTAMP)''',(username,lastname,firstname,email,hashed,affiliation))
+        cursor.execute(''' SELECT * FROM users WHERE username = %s ''',[username])
+        UsernameCheck = cursor.fetchall()
+        cursor.close()
+        
+        try:
+            UsernameCheck = UsernameCheck[0][0]
+            message += '<li>Unfortunately that username is not available.</li><br>'
+            Exists = True
+        except:
+            pass
+        
+        cursor = mysql.connection.cursor()
+        cursor.execute(''' SELECT * FROM users WHERE email = %s ''',[email])
+        EmailCheck = cursor.fetchall()
+        cursor.close()
+        
+        try:
+            EmailCheck = EmailCheck[0][0]
+            message += '<li>There seems to be an account with that email with us already.</li><br>'
+            Exists = True
+        except:
+            pass 
+            
+        if Exists == True or modal == True:
+            modal = popUp(title, message)
+            return render_template('sign_up.html', modal = modal)
+
+
+
+# Adds the user into the DB with their entered fields 
+        cursor = mysql.connection.cursor()
+        cursor.execute(''' INSERT INTO users VALUES(null,%s,%s,%s,%s,%s,%s,CURRENT_TIMESTAMP)''',[username,lastname,firstname,email,hashed,affiliation])
         mysql.connection.commit()
         cursor.close()
 
@@ -139,16 +201,11 @@ def popUp(title, message):
                     <div class="popup active" id="popup-1">
                         <div class="overlay"></div>
                         <div class="content">
-                            <div class="close-btn" onclick="togglePopup()">&times;</div>
-                            <h1>""" + title + """</h1>
-                            <p>""" + message + """</p>
+                            <div class="close-btn" onclick="history.back()">&times;</div>
+                            <h1 style="font-weight: bold;">""" + title + """</h1>
+                            <ul>""" + message + """</ul>
                         </div>
                     </div>
-                    <script>
-                        function togglePopup(){
-                            document.getElementById("popup-1").classList.toggle("active");
-                        }
-                    </script>
                 """)
 
 
