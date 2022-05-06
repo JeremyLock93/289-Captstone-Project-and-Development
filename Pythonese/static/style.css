@@ -19,7 +19,6 @@ body {
 .container .profiletable b {
 	font-size: 22px;
 	align-content: left;
-	
 }
 
 /* Header & Navbar */
@@ -160,14 +159,17 @@ header .navbar {
     border-radius: 8px;
 }
 
-.form-container .welcome-title {
-    font-size: 48px;
+.form-container .welcome-title h1{
+	text-align: center;
+    font-size: 50px;
+	font-weight: bold;
     transform: translateZ(0);
     padding-bottom: .5em;
 }
 
 .title{
-    font-size: 30px;
+    font-size: 38px;
+	font-weight: bold;
     padding-bottom: .3em;
 }
 
@@ -195,7 +197,6 @@ form #sign-up-link {
 	transform:translate(-50%,-50%) scale(0);
 	background: #f3f3f3;
 	width: 450px;
-	height: 220px;
 	z-index: 2;
 	text-align: center;
 	padding:20px;
@@ -204,8 +205,9 @@ form #sign-up-link {
 }
 
 .popup .content h1 {
-	padding-top: 7px;
-	padding-bottom: 50px;
+	font-size: large;
+	padding-top: 6px;
+	padding-bottom: 35px;
 }
 
 .popup .close-btn {
