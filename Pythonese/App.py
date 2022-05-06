@@ -6,9 +6,10 @@ import re
 from flask import Flask, redirect, url_for, render_template, request, send_file, session
 from flask_mysqldb import MySQL
 from markupsafe import Markup
-from sqlalchemy import false
 
 app = Flask(__name__)
+
+app.secret_key = "GotMilk545"
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
@@ -20,28 +21,43 @@ mysql = MySQL(app)
 @app.route("/home")
 @app.route("/")
 def index():
-	return render_template("index.html")
+    if "username" in session:
+        return render_template("index.html")
+    else:
+        return redirect(url_for("loggin"))
+	
 
 
 @app.route("/calendar")
 def calendar():
-    return render_template("calendar.html")
+    if "username" in session:
+        return render_template("calendar.html")
+    else:
+        return redirect(url_for("loggin"))
+    
 
 
 @app.route("/templates")
 def templates():
-    return render_template("templates.html")
+    if "username" in session:
+        return render_template("templates.html")
+    else:
+        return redirect(url_for("loggin"))
+    
+
 
 
 @app.route("/profile")
 def profile():
-    userRecord = Test()
-
-    return render_template("profile.html",
-        username = userRecord[1],
-        name = userRecord[3] +" "+ userRecord[2],
-        email = userRecord[4],
-        password = userRecord[5])
+    if "username" in session:
+        return render_template("profile.html",
+        username = session["username"],
+        name = session["first"] +" "+ session["last"],
+        email = session["email"],
+        password = session["password"])
+    else:
+        return redirect(url_for("loggin"))
+    
 
 
 @app.route("/loggin")
@@ -77,7 +93,9 @@ def log():
         # Compairs the entered password with the stored hash version of the password 
         # if error occurs it will present the user with a pop up and a re-try event
         if bcrypt.checkpw(password.encode('utf-8'), dbpass.encode('utf-8')):
-            return render_template('index.html')
+            CreateSession(email) # Server side session creation
+            # TODO create client side cookie
+            return redirect(url_for("index"))
         else:
             title = 'Invalid credentials'
             message = '<li>You may have entered in the wrong email or password for your account.</li>'
@@ -185,11 +203,28 @@ def signup():
         mysql.connection.commit()
         cursor.close()
 
-        # TODO Create session cookie with users information 
+# Server side session
+        CreateSession(email)
+        
+# TODO Create client side cookie
+        
 
         # Redirects the user to the home page 
-        return render_template("index.html")
-
+        return redirect(url_for("index"))
+    
+    
+@app.route("/logout")
+def logout():
+    if "username" in session:
+        session.pop("USID", None)
+        session.pop("username", None)
+        session.pop("last", None)
+        session.pop("first", None)
+        session.pop("email", None)
+        session.pop("password", None)
+        return redirect(url_for("loggin"))
+    else:
+        return redirect(url_for("loggin"))
 
 """
     You can use this method to create a pop up message for anything by passing 
@@ -207,18 +242,21 @@ def popUp(title, message):
                         </div>
                     </div>
                 """)
+    
+    
+def CreateSession(email):
+    cursor = mysql.connection.cursor()
+    cursor.execute(''' SELECT * FROM users WHERE email = %s ''',[email])
+    user = cursor.fetchall()
+    cursor.close()
+    
+    session["USID"] = user[0][0]
+    session["username"] = user[0][1]
+    session["last"] = user[0][2]
+    session["first"] = user[0][3]
+    session["email"] = user[0][4]
+    session["password"] = user[0][5]
 
-
-def Test():
-    USID = 1
-    UserName = 'Admin'
-    lastname = 'Templiholics'
-    firstname = 'Pythonese'
-    email = 'admin@Pythonese.com'
-    password = 'We_Are_A_Team$50'
-    affiliation = 'A'
-    datecreated = '2022-04-28 02:59:24'
-    return(USID,UserName,lastname,firstname,email,password,affiliation,datecreated)
 
 
 
