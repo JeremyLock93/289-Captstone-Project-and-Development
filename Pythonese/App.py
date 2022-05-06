@@ -43,8 +43,6 @@ def templates():
         return render_template("templates.html")
     else:
         return redirect(url_for("loggin"))
-    
-
 
 
 @app.route("/profile")
@@ -53,11 +51,48 @@ def profile():
         return render_template("profile.html",
         username = session["username"],
         name = session["first"] +" "+ session["last"],
-        email = session["email"],
-        password = session["password"])
+        email = session["email"])
     else:
         return redirect(url_for("loggin"))
     
+    
+@app.route("/change-password")
+def pswdChange(): 
+    if "username" in session:
+        return render_template("changepass.html",username = session["username"])
+    else:
+        return redirect(url_for("loggin")) 
+    
+
+@app.route("/change", methods = ['POST', 'GET'])
+def change():
+    if request.method == 'POST':
+        currentPass = request.form['currentPass']
+        newPass = request.form['password']
+        hashed = bcrypt.hashpw(newPass.encode('utf-8'), bcrypt.gensalt()) # Default passes is 12 prefix is 2b
+        email = session["email"]
+        
+        # Gets the stored hashed password from the DB based on the email entered 
+        cursor = mysql.connection.cursor()
+        cursor.execute(''' SELECT Password FROM users WHERE Email LIKE '{0}' '''.format(email))
+        user = cursor.fetchall()
+        cursor.close()
+        dbpass = user[0][0]
+        
+        if bcrypt.checkpw(currentPass.encode('utf-8'), dbpass.encode('utf-8')):
+            cursor = mysql.connection.cursor()
+            cursor.execute(''' UPDATE users SET Password = %s WHERE email = %s ''',[hashed, email])
+            mysql.connection.commit()
+            cursor.close()
+            
+            return redirect(url_for("profile"))
+        else:
+            title = 'Invalid credentials'
+            message = '<li>You may have entered in the wrong password for your account.</li>'
+            modal = popUp(title, message)
+            return render_template('changepass.html', 
+                                   modal = modal,
+                                   username = session["username"])
 
 
 @app.route("/loggin")
@@ -144,7 +179,7 @@ def signup():
             else:
                 result = False
             
-        regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+        regex = re.compile('[-@_!#$%^&*()<>?/\|}{~:]')
        
         if(regex.search(password) != None):
             result = True
@@ -210,7 +245,7 @@ def signup():
         
 
         # Redirects the user to the home page 
-        return redirect(url_for("index"))
+        return redirect(url_for("index")) 
     
     
 @app.route("/logout")
@@ -221,7 +256,6 @@ def logout():
         session.pop("last", None)
         session.pop("first", None)
         session.pop("email", None)
-        session.pop("password", None)
         return redirect(url_for("loggin"))
     else:
         return redirect(url_for("loggin"))
@@ -255,7 +289,6 @@ def CreateSession(email):
     session["last"] = user[0][2]
     session["first"] = user[0][3]
     session["email"] = user[0][4]
-    session["password"] = user[0][5]
 
 
 
