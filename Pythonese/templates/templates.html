@@ -45,12 +45,34 @@
       </header>
 
       <!-- This is where the main guts of the web page goes -->
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <h1>Templates</h1>
+      {% if popUp != '' %}
+        {{modal}}
+      {% endif %}
+
+      <div class="form-container">
+        <div class="row">
+          <div class="col">
+      
+            <h1>Upload an image</h1>
+            <hr>
+      
+            <form action="/templates" method="POST" enctype="multipart/form-data">
+      
+              <div class="form-group">
+                <label>Select file</label>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" name="image" id="image">
+                  <label class="custom-file-label" for="image">Select file...</label>
+                </div>
+              </div>
+      
+              <button type="submit" class="btn btn-primary">Upload</button>
+      
+            </form>
+      
+          </div>
+        </div>
+      </div>
 
 
 
