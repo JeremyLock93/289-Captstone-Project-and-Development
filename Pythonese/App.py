@@ -128,8 +128,6 @@ def loggin():
         email = email.lower()
         password = request.form['password'] # Case sensitive!!!
         remember = request.form.get('remember')
-        
-        print(remember)
 
 # Gets the stored hashed password from the DB based on the email entered 
         cursor = mysql.connection.cursor()
