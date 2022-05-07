@@ -7,7 +7,7 @@ from markupsafe import Markup
 from dotenv import load_dotenv
 from datetime import timedelta
 from wtforms import Filefield, SubmitField
-from werkzeug.untils import secure_filename
+from werkzeug.utils import secure_filename
 from wtforms.validators import InputRequired
 
 """
@@ -43,13 +43,6 @@ mysql = MySQL(app)
 @app.route("/home")
 @app.route("/")
 def index():
-    form = UploadFileForm()
-    if form.validate_on_submit():
-        file = form.file.data
-        file.save(os.path.join(os.path.abspath(os.path.dirnam(__file__)),app.config['UPLOAD_FOLDER'],secure_filename(file.filename)))
-        return "File has been uploaded"
-    return render_template("index.html", form=form)
-    
     if "username" in session:
         return render_template("index.html")
     else:
@@ -65,11 +58,32 @@ def calendar():
         return redirect(url_for("loggin"))
     
 
-
-@app.route("/templates")
+class UploadFileForm(FlaskForm):
+    file = FileField("File")
+    
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    
+@app.route("/templates", methods = ['GET', 'POST'])
 def templates():
+    form 
     if "username" in session:
-        return render_template("templates.html")
+        if request.method == 'POST':
+            if 'file' not in request.files:
+                flash('No file part')
+                return redirect('templates.html')
+            
+        file = request.files['file']
+        if file.filename == '':
+            flash('No Selected File')
+            return redirect('templates.html')
+           
+        if form.validate_on_submit():
+            file = form.file.data
+            file.save(os.path.join(os.path.abspath(os.path.dirnam(__file__)),app.config['UPLOAD_FOLDER'],secure_filename(file.filename)))
+            return "File has been uploaded"
+        return render_template("templates.html", form=form)
     else:
         return redirect(url_for("loggin"))
 
