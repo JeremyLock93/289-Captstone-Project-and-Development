@@ -6,6 +6,17 @@ from flask_mysqldb import MySQL
 from markupsafe import Markup
 from dotenv import load_dotenv
 
+"""
+    If you have missing modules run 
+    
+    Windows:
+    pip install -r requirements.txt
+    
+    Mac:
+    python -m pip install requirements.txt
+"""
+
+
 # The uploaded .env is for a local enviroment 
 # for security purposes the .env on the running site has been left out of this repo
 load_dotenv()
