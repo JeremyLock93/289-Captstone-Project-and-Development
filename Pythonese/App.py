@@ -5,6 +5,7 @@ from flask import Flask, redirect, url_for, render_template, request, send_file,
 from flask_mysqldb import MySQL
 from markupsafe import Markup
 from dotenv import load_dotenv
+from datetime import timedelta
 
 """
     If you have missing modules run 
@@ -24,6 +25,8 @@ load_dotenv()
 app = Flask(__name__)
 
 app.secret_key = os.getenv("SECRET_KEY")
+
+app.permanent_session_lifetime = timedelta(days=7)
 
 app.config['MYSQL_HOST'] = os.getenv("MYSQL_HOST")
 app.config['MYSQL_USER'] = os.getenv("MYSQL_USER")
@@ -124,6 +127,9 @@ def loggin():
         email = request.form['email']
         email = email.lower()
         password = request.form['password'] # Case sensitive!!!
+        remember = request.form.get('remember')
+        
+        print(remember)
 
 # Gets the stored hashed password from the DB based on the email entered 
         cursor = mysql.connection.cursor()
@@ -143,7 +149,11 @@ def loggin():
 # Compairs the entered password with the stored hash version of the password 
 # if error occurs it will present the user with a pop up and a re-try event
         if bcrypt.checkpw(password.encode('utf-8'), dbpass.encode('utf-8')):
-            CreateSession(email) # Server side session creation
+            if remember == 'on':
+                CreatePermSession(email)
+            else:
+                CreateSession(email) # Server side session creation
+            
             return redirect(url_for("index"))
         else:
             title = 'Invalid credentials'
@@ -249,10 +259,7 @@ def logout():
         session.pop("last", None)
         session.pop("first", None)
         session.pop("email", None)
-        title = 'Success'
-        message = '<li>You were successfuly logged out. Please come back soon!</li>'
-        modal = popUp(title, message)
-        return redirect(url_for("loggin", modal = modal))
+        return redirect(url_for("loggin"))
     else:
         return redirect(url_for("loggin"))
 
@@ -278,8 +285,32 @@ def popUp(title, message):
 def CreateSession(email):
     """
         This method queries the DB then it creates 
-        a session cookie on the clients browser.
+        a session cookie on the sever.
+        
+        This only lasts until the user closes their browser or logs out
     """
+    cursor = mysql.connection.cursor()
+    cursor.execute(''' SELECT * FROM users WHERE email = %s ''',[email])
+    user = cursor.fetchall()
+    cursor.close()
+    
+    session["USID"] = user[0][0]
+    session["username"] = user[0][1]
+    session["last"] = user[0][2]
+    session["first"] = user[0][3]
+    session["email"] = user[0][4]
+    
+    
+def CreatePermSession(email):
+    """
+        This method queries the DB then it creates 
+        a session cookie on the clients browser.
+        
+        This lasts for 14 days then it will delete it's self 
+        or until the user logs out
+    """
+    session.permanent = True
+    
     cursor = mysql.connection.cursor()
     cursor.execute(''' SELECT * FROM users WHERE email = %s ''',[email])
     user = cursor.fetchall()
@@ -324,6 +355,7 @@ def passStandardCheck(password):
         result = False
         
     return result
+
 
 
 
