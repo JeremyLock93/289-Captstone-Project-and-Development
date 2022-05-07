@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.28, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
 --
--- Host: localhost    Database: templiholic_db
+-- Host: localhost    Database: templiholics_db
 -- ------------------------------------------------------
--- Server version	8.0.28
+-- Server version	8.0.29
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,8 +24,8 @@ DROP TABLE IF EXISTS `files`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `files` (
   `FID` int NOT NULL AUTO_INCREMENT,
-  `FileName` varchar(45) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
-  `FileLocation` varchar(45) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
+  `FileName` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_swedish_ci NOT NULL,
+  `FileLocation` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_swedish_ci NOT NULL,
   `UploadDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`FID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_swedish_ci;
@@ -50,9 +50,9 @@ DROP TABLE IF EXISTS `templatedata`;
 CREATE TABLE `templatedata` (
   `AID` int NOT NULL AUTO_INCREMENT,
   `TID` int NOT NULL,
-  `AssignmentName` varchar(45) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
+  `AssignmentName` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_swedish_ci NOT NULL,
   `DueDate` datetime NOT NULL,
-  `Comments` varchar(255) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
+  `Comments` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8_swedish_ci NOT NULL,
   PRIMARY KEY (`AID`),
   KEY `TID_idx` (`TID`),
   KEY `TIDs_idx` (`TID`),
@@ -78,8 +78,9 @@ DROP TABLE IF EXISTS `templates`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `templates` (
   `TID` int NOT NULL AUTO_INCREMENT,
-  `ClassName` varchar(45) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
+  `ClassName` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_swedish_ci NOT NULL,
   `CreationDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `File_location` varchar(150) COLLATE utf8_swedish_ci NOT NULL,
   PRIMARY KEY (`TID`),
   UNIQUE KEY `TID_UNIQUE` (`TID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_swedish_ci;
@@ -131,17 +132,17 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `USID` int NOT NULL AUTO_INCREMENT,
-  `Username` varchar(15) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
-  `LastName` varchar(30) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
-  `FirstName` varchar(30) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
-  `Email` varchar(155) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
-  `Password` varchar(256) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
-  `Affiliation` char(1) CHARACTER SET utf8 COLLATE utf8_swedish_ci NOT NULL,
+  `Username` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8_swedish_ci NOT NULL,
+  `LastName` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8_swedish_ci NOT NULL,
+  `FirstName` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8_swedish_ci NOT NULL,
+  `Email` varchar(155) CHARACTER SET utf8mb3 COLLATE utf8_swedish_ci NOT NULL,
+  `Password` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8_swedish_ci NOT NULL,
+  `Affiliation` char(1) CHARACTER SET utf8mb3 COLLATE utf8_swedish_ci NOT NULL,
   `DateCreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`USID`),
   UNIQUE KEY `USID_UNIQUE` (`USID`),
   UNIQUE KEY `Username_UNIQUE` (`Username`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,7 +151,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Admin','Templiholics','Pythonese','admin@Pythonese.com','We_Are_A_Team$50','A','2022-04-28 02:59:24'),(2,'BrownT7272','Brown','Taylor','brownt7272@student.faytechcc.edu','ClubPython-155','S','2022-04-28 03:01:20');
+INSERT INTO `users` VALUES (1,'Admin','admin','admin','admin@admin.com','$2b$12$yMeAL5i1NCOluMYsYnFZIOsFb2.uQG7ui4oHVShoQTji6tcoUCu92','A','2022-05-07 07:17:43');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -192,4 +193,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-30  2:48:53
+-- Dump completed on 2022-05-07  4:42:49
