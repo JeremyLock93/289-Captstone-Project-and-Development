@@ -1,7 +1,8 @@
 import os
 import bcrypt
 import re
-from flask import Flask, redirect, url_for, render_template, request, send_file, session
+import File_Parse_onefile as fp
+from flask import Flask, redirect, url_for, render_template, request, session
 from flask_wtf import FlaskForm
 from flask_mysqldb import MySQL
 from markupsafe import Markup
@@ -10,6 +11,7 @@ from datetime import timedelta
 from wtforms import FileField, SubmitField
 from werkzeug.utils import secure_filename
 from wtforms.validators import InputRequired
+
 
 """
     If you have missing modules run 
@@ -75,7 +77,6 @@ def templates():
             if request.files:
                 
                 if "filesize" in request.cookies:
-                    print("trying post")
                     if not allowed_file_filesize(request.cookies["filesize"]):
                         print("Filesize exceeded maximum limit")
                         return redirect(request.url)
@@ -93,16 +94,26 @@ def templates():
                         filename = secure_filename(file.filename)
                         className = request.form['className']
                         
-                        record_creation(filename,className)
-
-                        file.save(os.path.join(app.config["FILE_UPLOADS"], filename))
-
-                        title = 'Success'
-                        message = "<li>Your file has been uploaded successfuly!</li>"
-                        modal = popUp(title, message)
-                        return render_template('templates.html', 
-                                                modal = modal)
-
+                        USID = str(session['USID'])
+                        
+                        new_fileName = USID + '-' + session['username'] + '-' + filename
+                        
+                        file.save(os.path.join(app.config["FILE_UPLOADS"], new_fileName))
+                        
+                        pass_fail = record_creation(new_fileName,className)
+                        
+                        if pass_fail == True:
+                            title = 'Success!'
+                            message = "<li>Your file has been uploaded successfuly!</li>"
+                            modal = popUp(title, message)
+                            return render_template('templates.html', 
+                                                    modal = modal)
+                        else:
+                            title = 'Oh No!'
+                            message = "<li>We were unable to process your file!</li>"
+                            modal = popUp(title, message)
+                            return render_template('templates.html', 
+                                                    modal = modal)
                     else:
                         title = 'Our apologies for the inconvenience'
                         message = "<li>Unfortuantly we dont support that file type.</li>"
@@ -432,34 +443,44 @@ def allowed_file(filename):
 
 def record_creation(filename,Classname):
     ext = filename.rsplit(".", 1)[1]
-    File_location = app.config['FILE_UPLOADS']+filename
+    File_location = 'C:\\Users\\Taylor\\Documents\School\\4_Spring_2022\\CSC-289 Programming Capstone Project\\Pythonese\\static\\files' + '\\' + filename
 
     if ext.upper() == "CSV":
-        CSV_data = ParaseCSV()
+        DATA = fp.ParseCSV(File_location)
 
 
     if ext.upper() == "DOCX":
-        DOCX_data = ParaseDOCX()
+        DATA = fp.ParseDOCX(File_location)
 
     try:
         cursor = mysql.connection.cursor()
         cursor.execute(''' INSERT INTO templates VALUES(null,%s,CURRENT_TIMESTAMP,%s)''',[Classname, File_location])
-        cursor.execute('''SELECT * FROM template WHERE Classname = %s AND File_loacation = %s''',[Classname, File_location])
-        data = cursor.fetchall()
-        TID = data[0][0]
-        for record in CSV_data:
-            cursor.execute(''' INSERT INTO templatedata VALUES(null,%s,%s,%s,%s)''',[TID, CSV_data[record['name']], CSV_data[record['date']], CSV_dataprecords['comments']])
-
-        cursor.excute('''INSERT INTO usertemplates VALUES (null, %s, %s)''', [session['USID'],TID])
         mysql.connection.commit()
         cursor.close()
+        
+        cursor = mysql.connection.cursor()
+        cursor.execute(''' SELECT * FROM templates WHERE ClassName = %s ''',[Classname])
+        data = cursor.fetchall()
+        cursor.close()
+        TID = data[0][0]
+        USID = session['USID'] 
+        
+        cursor = mysql.connection.cursor()
+        mySql_insert_query = """INSERT INTO usertemplates (Record,USID,TID) VALUES (null,%s, %s) """
+        record = (USID,TID)
+        cursor.execute(mySql_insert_query, record)
+        mysql.connection.commit()
+        
+        for record in DATA:
+            cursor = mysql.connection.cursor()
+            cursor.execute(''' INSERT INTO templatedata VALUES(null,%s,%s,%s,%s)''',[TID, record['Assignment'], record['Due-Date'], record['Comment']])
+            mysql.connection.commit()
+            cursor.close()
+            
         return True
+    
     except:
-        title = 'Oh No!'
-        message = "<li>WE were unable to process your file!</li>"
-        modal = popUp(title, message)
-        return render_template('templates.html', 
-                                modal = modal)
+        return False
 
 
 if __name__ == "__main__":

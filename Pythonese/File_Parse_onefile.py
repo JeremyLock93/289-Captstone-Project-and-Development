@@ -7,17 +7,6 @@ from docx import Document
 from docx.shared import Inches, Pt
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 
-
-basepath = "C:\\Users\\lord_\\289-Captstone-Project-and-Development(tmp)\\File_Parser\\TemplateFolder"
-#### WEB PATH
-#basepath = os.path.abspath("/home/Pythonese/mysite/TemplateFolder")
-# Verify the path if it's valid
-assert os.path.exists(basepath), "I did not find the directory at, "+str(basepath)
-    
-def main():
-    CSV(basepath)
-    DOCX(basepath)
-    JSON(basepath)
     
 def CSV(basepath):
     """
@@ -108,22 +97,6 @@ def Parsers(basepath):
             PrintDOCX(f)
             
 def ParseCSV(file_P_CSV):
-    """
-    Gathers filename for classname and the data contents from the file and pass the results.
-    """ 
-    #Strips the file extention and assigns it as the Class_name
-    size = len(file_P_CSV)
-    CLASS_NAME = file_P_CSV[size - 24:size - 13]
-    """
-    Get the characters from position 2 to position 5 (not included):
-
-    b = "Hello, World!"
-    print(b[2:5])
-    """
-    ###MODIFY THIS TO THE CORRESPONDING PATH OF THE TEMPLATE FILE DIRECTORY!!!
-    ###OR THE CLASSNAME IS NOT CORRECT!!!
-    
-    
     # Parses the rows and makes the first row read the header and the subsequent rows the values for each header.
     with open(file_P_CSV, "r") as file:
         csvreader = csv.DictReader(file)
@@ -131,7 +104,7 @@ def ParseCSV(file_P_CSV):
         for row in csvreader:
             DATA_FORMATTED_CSV.append(row)
             
-    return CLASS_NAME, DATA_FORMATTED_CSV
+    return DATA_FORMATTED_CSV
         
 
 def ParseDOCX(file_P_DOCX):
@@ -264,5 +237,3 @@ def Create_JSON(path,file, CLASS_NAME, DATA_FORMATTED):
         dict_stuff = {"className":CLASS_NAME,"assignments":DATA_FORMATTED}
         json.dump(dict_stuff,f, indent=3)
         
-if __name__ == ("__main__"):
-    main()
