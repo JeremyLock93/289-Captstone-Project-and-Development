@@ -92,6 +92,8 @@ def templates():
                     if allowed_file(file.filename):
                         filename = secure_filename(file.filename)
                         className = request.form['className']
+                        
+                        record_creation(filename,className)
 
                         file.save(os.path.join(app.config["FILE_UPLOADS"], filename))
 
@@ -428,7 +430,36 @@ def allowed_file(filename):
         return False
 
 
+def record_creation(filename,Classname):
+    ext = filename.rsplit(".", 1)[1]
+    File_location = app.config['FILE_UPLOADS']+filename
 
+    if ext.upper() == "CSV":
+        CSV_data = ParaseCSV()
+
+
+    if ext.upper() == "DOCX":
+        DOCX_data = ParaseDOCX()
+
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute(''' INSERT INTO templates VALUES(null,%s,CURRENT_TIMESTAMP,%s)''',[Classname, File_location])
+        cursor.execute('''SELECT * FROM template WHERE Classname = %s AND File_loacation = %s''',[Classname, File_location])
+        data = cursor.fetchall()
+        TID = data[0][0]
+        for record in CSV_data:
+            cursor.execute(''' INSERT INTO templatedata VALUES(null,%s,%s,%s,%s)''',[TID, CSV_data[record['name']], CSV_data[record['date']], CSV_dataprecords['comments']])
+
+        cursor.excute('''INSERT INTO usertemplates VALUES (null, %s, %s)''', [session['USID'],TID])
+        mysql.connection.commit()
+        cursor.close()
+        return True
+    except:
+        title = 'Oh No!'
+        message = "<li>WE were unable to process your file!</li>"
+        modal = popUp(title, message)
+        return render_template('templates.html', 
+                                modal = modal)
 
 
 if __name__ == "__main__":
