@@ -6,7 +6,7 @@ from flask_mysqldb import MySQL
 from markupsafe import Markup
 from dotenv import load_dotenv
 from datetime import timedelta
-from wtforms import Filefield, SubmitField
+from wtforms import FileField, SubmitField
 from werkzeug.utils import secure_filename
 from wtforms.validators import InputRequired
 
@@ -25,7 +25,7 @@ from wtforms.validators import InputRequired
 # for security purposes the .env on the running site has been left out of this repo
 load_dotenv()
 
-ALLOWED_EXTENSIONS = {'txt', 'docx', 'csv', 'pptx'}
+
 
 app = Flask(__name__)
 
@@ -37,7 +37,7 @@ app.config['MYSQL_HOST'] = os.getenv("MYSQL_HOST")
 app.config['MYSQL_USER'] = os.getenv("MYSQL_USER")
 app.config['MYSQL_PASSWORD'] = os.getenv("MYSQL_PASSWORD")
 app.config['MYSQL_DB'] = os.getenv("MYSQL_DB")
-
+app.config['ALLOWED_EXTENSIONS'] = ['txt', 'docx', 'csv', 'pptx']
 mysql = MySQL(app)
 
 @app.route("/home")
