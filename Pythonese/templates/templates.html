@@ -53,34 +53,40 @@
         <div class="row">
           <div class="col">
       
-            <h1>Upload an image</h1>
+            <h1 style="font-weight: bold; font-size: 42px;">Upload an image</h1>
             <hr>
-      
             <form action="/templates" method="POST" enctype="multipart/form-data">
+
+              <div class="form-group">
+                <label for="className">Class Name:</label>
+                <input type="text" class="form-control" name="className" required>
+              </div>
       
               <div class="form-group">
-                <label>Select file</label>
+                <label>Select file:</label>
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" name="image" id="image">
-                  <label class="custom-file-label" for="image">Select file...</label>
+
+                  <input id="image" for="image" type="file" name="image" oninput="filesize(this);">
+
+                  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+
+                    function filesize(elem){
+                      document.cookie = `filesize=${elem.files[0].size}`
+                    }
+                  
+                  </script>
+
                 </div>
               </div>
       
               <button type="submit" class="btn btn-primary">Upload</button>
       
             </form>
-      
+
           </div>
         </div>
       </div>
-
-
-
-
-
-
-
-
+      
             
       <!-- This contains the copyright information and other inportant information -->
       <footer>
