@@ -29,7 +29,7 @@ load_dotenv()
 app = Flask(__name__)
 
 app.config["FILE_UPLOADS"] = "static/files"
-app.config["ALLOWED_FILE_EXTENSIONS"] = ["TXT","DOCX","CSV"]
+app.config["ALLOWED_FILE_EXTENSIONS"] = ["DOCX","CSV"]
 app.config["MAX_FILE_FILESIZE"] = 0.5 * 1024 * 1024
 
 app.secret_key = os.getenv("SECRET_KEY")
@@ -76,23 +76,24 @@ def templates():
                 
                 if "filesize" in request.cookies:
                     print("trying post")
-                    if not allowed_image_filesize(request.cookies["filesize"]):
+                    if not allowed_file_filesize(request.cookies["filesize"]):
                         print("Filesize exceeded maximum limit")
                         return redirect(request.url)
 
-                    image = request.files["image"]
+                    file = request.files["file"]
 
-                    if image.filename == "":
+                    if file.filename == "":
                         title = 'Our apologies for the inconvenience'
                         message = "<li>It seems like you haven't choosen a file to upload yet!</li>"
                         modal = popUp(title, message)
                         return render_template('templates.html', 
                                                 modal = modal)
 
-                    if allowed_image(image.filename):
-                        filename = secure_filename(image.filename)
+                    if allowed_file(file.filename):
+                        filename = secure_filename(file.filename)
+                        className = request.form['className']
 
-                        image.save(os.path.join(app.config["FILE_UPLOADS"], filename))
+                        file.save(os.path.join(app.config["FILE_UPLOADS"], filename))
 
                         title = 'Success'
                         message = "<li>Your file has been uploaded successfuly!</li>"
@@ -406,7 +407,7 @@ def passStandardCheck(password):
     return result
 
 
-def allowed_image_filesize(filesize):
+def allowed_file_filesize(filesize):
 
     if int(filesize) <= app.config["MAX_FILE_FILESIZE"]:
         return True
@@ -414,7 +415,7 @@ def allowed_image_filesize(filesize):
         return False
     
     
-def allowed_image(filename):
+def allowed_file(filename):
 
     if not "." in filename:
         return False
