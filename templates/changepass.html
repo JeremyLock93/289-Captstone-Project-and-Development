@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <!-- Additional CSS -->   
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='reset.css')}}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+
+        <title>Templiholic</title>
+
+        
+    </head>
+
+    <!-- This is where the nav bar goes -->
+    <body style="background-color: #83b5cd; background-image: linear-gradient(to bottom left, #83b5cd, #125267);">
+        {% if popUp != '' %}
+            {{modal}}
+        {% endif %}
+
+      <header class="">
+        <nav class="navbar navbar-expand-lg">
+          <div class="container">
+            <a class="navbar-brand" href="home"><h2>Templiholic <em>Pythonese</em></h2></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="home">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="calendar">Calendar</a></li>
+                <li class="nav-item"><a class="nav-link" href="templates">Templates</a></li>
+                <li class="nav-item dropdown active">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="margin-bottom:10px;">
+                    <a class="dropdown-item" href="profile">Account</a>
+                    <a class="dropdown-item" href="logout">Sign out</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      <!-- This is where the main guts of the web page goes -->
+      <body>
+        <div class="form-container">
+            <form action="/change" method = "POST">
+                <h1 class="title">Change Password For {{ username }}</h1>
+                <div class="form-group">
+                <label for="user_email">Current Password</label>
+                <input type="password" class="form-control" name="currentPass" aria-describedby="emailHelp" required>
+                </div>
+                <div class="form-group">
+                <label for="user_password">New Password</label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="At least 6 characters required" required>
+                </div>
+
+                <div class="form-group">
+                <label for="user_password_confirmation">Confirm Password</label>
+                <input type="password" class="form-control" name="password_confirm" id="password_confirm" oninput="check(this)" required>
+                </div>
+                <script language='javascript' type='text/javascript'>
+                function check(input) {
+                    if (input.value != document.getElementById('password').value) {
+                        input.setCustomValidity('Password Must be Matching.');
+                    } else {
+                        // input is valid -- reset the error message
+                        input.setCustomValidity('');
+                    }
+                }
+                </script>
+                <button type="submit" class="btn btn-primary">Change</button>
+            </form>
+            </div>  
+
+            
+
+      
+      <!-- This contains the copyright information and other inportant information -->
+      <footer>
+          <div class="COPYRIGHT" style="align-content: center;">
+          <p>Copyright © 2022 Pythonese LLC</p>
+          </div>
+      </footer>
+
+      <!-- Optional JavaScript -->
+      <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html>
