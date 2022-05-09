@@ -29,7 +29,7 @@ CREATE TABLE `templates` (
   `File_location` varchar(150) COLLATE utf8_swedish_ci NOT NULL,
   PRIMARY KEY (`TID`),
   UNIQUE KEY `TID_UNIQUE` (`TID`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-08 18:04:07
+-- Dump completed on 2022-05-09  2:08:18

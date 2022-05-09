@@ -34,7 +34,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`USID`),
   UNIQUE KEY `USID_UNIQUE` (`USID`),
   UNIQUE KEY `Username_UNIQUE` (`Username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Admin','admin','admin','admin@admin.com','$2b$12$yMeAL5i1NCOluMYsYnFZIOsFb2.uQG7ui4oHVShoQTji6tcoUCu92','A','2022-05-07 07:17:43');
+INSERT INTO `users` VALUES (1,'Admin','admin','admin','admin@admin.com','$2b$12$yMeAL5i1NCOluMYsYnFZIOsFb2.uQG7ui4oHVShoQTji6tcoUCu92','A','2022-05-07 07:17:43'),(2,'Brownt7272','Brown','Taylor','taylor.j.brown1996@gmail.com','$2b$12$L8sHaK3ce4jaXkd/512DEOD7xmYNICpxXCJPXN5RV.joQh48bRO9S','S','2022-05-09 06:04:29');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-08 18:04:07
+-- Dump completed on 2022-05-09  2:08:18
